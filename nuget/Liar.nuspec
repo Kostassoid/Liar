@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Liar</id>
+    <title>Liar</title>
+    <version>$version$</version>
+    <authors>Konstantin Alexandroff</authors>
+    <owners>Konstantin Alexandroff</owners>
+    <projectUrl>https://github.com/Kostassoid/Liar</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/Kostassoid/Liar/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <language>en-US</language>
+    <summary>Rule based test data generator.</summary>
+    <description>Rule based test data generator.</description>
+    <copyright>Copyright 2014</copyright>
+    <tags>test unit tdd bdd data generator</tags>
+  </metadata>
+  <files>
+    <file src="..\output\built\*.*" target="lib\net40\" />
+    <file src="..\*LICENSE*" target="\" />
+  </files>
+</package>
