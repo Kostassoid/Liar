@@ -13,9 +13,21 @@
 
 namespace Kostassoid.Liar
 {
-	public class Imagine
+	using System;
+
+	public class Imagine<T>
 	{
-		public static T Any<T>()
+		public static T Default()
+		{
+			return default(T);
+		}
+
+		public static T Like(T template)
+		{
+			return template;
+		}
+
+		public static T Any()
 		{
 			return default(T);
 		}

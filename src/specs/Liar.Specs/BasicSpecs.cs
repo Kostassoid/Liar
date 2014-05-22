@@ -13,25 +13,48 @@
 
 namespace Kostassoid.Liar.Specs
 {
+	using System;
 	using Machine.Specifications;
 
 	// ReSharper disable InconsistentNaming
 	// ReSharper disable UnusedMember.Local
 	public class BasicSpecs
 	{
-		[Subject(typeof(Imagine), "Basic")]
+		[Subject(typeof(Imagine<>), "Basic")]
 		[Tags("Unit")]
-		public class when_generating_any_int
+		public class when_generating_default_int
 		{
 			static int _value;
 
 			Because of = () =>
 			{
-				_value = Imagine.Any<int>();
+				_value = Imagine<int>.Default();
 			};
 
-			It should_not_be_deafult = () => _value.ShouldNotEqual(default(int));
+			It should_be_deafult = () => _value.ShouldEqual(default(int));
 
+		}
+
+		[Subject(typeof(Imagine<>), "Basic")]
+		[Tags("Unit")]
+		public class when_generating_ints_using_template
+		{
+			static int _value;
+
+			Because of = () =>
+			{
+				_value = Imagine<int>.Like(33);
+			};
+
+			It should_equal_template_value = () => _value.ShouldEqual(33);
+
+		}
+
+		public class Boo
+		{
+			public int A { get; set; }
+			public string B { get; set; }
+			public Guid C { get; set; }
 		}
 
 	}
