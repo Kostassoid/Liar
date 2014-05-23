@@ -14,6 +14,7 @@
 namespace Kostassoid.Liar
 {
 	using System;
+	using Tools;
 
 	public class Imagine<T>
 	{
@@ -24,12 +25,17 @@ namespace Kostassoid.Liar
 
 		public static T Like(T template)
 		{
-			return template;
+			return template.Copy();
 		}
 
 		public static T Any()
 		{
-			return default(T);
+			throw new NotImplementedException();
+		}
+
+		public static T As(Builder<T> builder)
+		{
+			return builder();
 		}
 	}
 }

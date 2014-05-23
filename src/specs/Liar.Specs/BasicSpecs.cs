@@ -14,6 +14,7 @@
 namespace Kostassoid.Liar.Specs
 {
 	using System;
+	using System.Security.Cryptography.X509Certificates;
 	using Machine.Specifications;
 
 	// ReSharper disable InconsistentNaming
@@ -37,7 +38,7 @@ namespace Kostassoid.Liar.Specs
 
 		[Subject(typeof(Imagine<>), "Basic")]
 		[Tags("Unit")]
-		public class when_generating_ints_using_template
+		public class when_generating_value_instance_using_template
 		{
 			static int _value;
 
@@ -48,6 +49,93 @@ namespace Kostassoid.Liar.Specs
 
 			It should_equal_template_value = () => _value.ShouldEqual(33);
 
+		}
+
+		[Subject(typeof(Imagine<>), "Basic")]
+		[Tags("Unit")]
+		public class when_generating_ref_instance_using_template
+		{
+			static Boo _value;
+			static Boo _template;
+
+			Because of = () =>
+			{
+				_template = new Boo
+				{
+					A = 13,
+					B = "this",
+					C = Guid.NewGuid()
+				};
+
+				_value = Imagine<Boo>.Like(_template);
+			};
+
+			It should_equal_template_value = () =>
+			{
+				_value.A.ShouldEqual(_template.A);
+				_value.B.ShouldEqual(_template.B);
+				_value.C.ShouldEqual(_template.C);
+			};
+		}
+
+		[Subject(typeof(Imagine<>), "Basic")]
+		[Tags("Unit")]
+		public class when_generating_ints_using_generator
+		{
+			static int _value;
+
+			Because of = () =>
+			{
+				_value = Imagine<int>.As(Generated.PinCode());
+			};
+
+			It should_comply_with_rules = () =>
+			{
+				_value.ShouldBeGreaterThanOrEqualTo(1000);
+				_value.ShouldBeLessThan(10000);
+			};
+
+		}
+
+		[Subject(typeof(Imagine<>), "Basic")]
+		[Tags("Unit")]
+		public class when_generating_ints_using_rules
+		{
+			static Boo _value;
+
+			Because of = () =>
+			{
+				_value = Imagine<Boo>.As(() => new Boo
+				{
+					A = Imagine<int>.Any()
+				});
+			};
+
+			It should_comply_with_rules = () => _value.A.ShouldNotEqual(default(int));
+		}
+
+		[Subject(typeof(Imagine<>), "Basic")]
+		[Tags("Unit")]
+		public class when_generating_ints_using_specification
+		{
+			static Boo _value;
+
+			Because of = () =>
+			{
+				var someBoo = Define<Boo>.As(b =>
+				{
+					b.ConstructUsing(() => new Boo());
+					//b.Set(x => x.A).Is.PinCode;
+				});
+
+				_value = Imagine<Boo>.As(someBoo);
+			};
+
+			It should_comply_with_rules = () =>
+			{
+				_value.A.ShouldBeGreaterThanOrEqualTo(1000);
+				_value.A.ShouldBeLessThan(10000);
+			};
 		}
 
 		public class Boo

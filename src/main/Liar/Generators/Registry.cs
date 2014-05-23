@@ -11,35 +11,12 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar
+namespace Kostassoid.Liar.Generators
 {
-	using System;
-
-	public interface IGenerator
+	public static class Registry
 	{
-		object GetNext(GeneratorContext context);
-	}
 
-	public interface IGenerator<out T> : IGenerator
-	{
-		new T GetNext(GeneratorContext context);
-	}
 
-	public class GeneratorContext
-	{
-		
-	}
-
-	public class Int32Generator : IGenerator<int>
-	{
-		public int GetNext(GeneratorContext context)
-		{
-			throw new NotImplementedException();
-		}
-
-		object IGenerator.GetNext(GeneratorContext context)
-		{
-			return GetNext(context);
-		}
+		 
 	}
 }

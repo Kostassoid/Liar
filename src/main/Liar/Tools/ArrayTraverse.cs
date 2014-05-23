@@ -11,35 +11,40 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar
+namespace Kostassoid.Liar.Tools
 {
 	using System;
 
-	public interface IGenerator
+	internal class ArrayTraverse
 	{
-		object GetNext(GeneratorContext context);
-	}
+		public int[] Position;
+		readonly int[] _maxLengths;
 
-	public interface IGenerator<out T> : IGenerator
-	{
-		new T GetNext(GeneratorContext context);
-	}
-
-	public class GeneratorContext
-	{
-		
-	}
-
-	public class Int32Generator : IGenerator<int>
-	{
-		public int GetNext(GeneratorContext context)
+		public ArrayTraverse(Array array)
 		{
-			throw new NotImplementedException();
+			_maxLengths = new int[array.Rank];
+			for (int i = 0; i < array.Rank; ++i)
+			{
+				_maxLengths[i] = array.GetLength(i) - 1;
+			}
+			Position = new int[array.Rank];
 		}
 
-		object IGenerator.GetNext(GeneratorContext context)
+		public bool Step()
 		{
-			return GetNext(context);
+			for (int i = 0; i < Position.Length; ++i)
+			{
+				if (Position[i] < _maxLengths[i])
+				{
+					Position[i]++;
+					for (int j = 0; j < i; j++)
+					{
+						Position[j] = 0;
+					}
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }

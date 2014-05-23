@@ -11,35 +11,17 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar
+namespace Kostassoid.Liar.Tools
 {
 	using System;
 
-	public interface IGenerator
+	internal static class ArrayExtensions
 	{
-		object GetNext(GeneratorContext context);
-	}
-
-	public interface IGenerator<out T> : IGenerator
-	{
-		new T GetNext(GeneratorContext context);
-	}
-
-	public class GeneratorContext
-	{
-		
-	}
-
-	public class Int32Generator : IGenerator<int>
-	{
-		public int GetNext(GeneratorContext context)
+		public static void ForEach(this Array array, Action<Array, int[]> action)
 		{
-			throw new NotImplementedException();
-		}
-
-		object IGenerator.GetNext(GeneratorContext context)
-		{
-			return GetNext(context);
+			if (array.LongLength == 0) return;
+			var walker = new ArrayTraverse(array);
+			do action(array, walker.Position); while (walker.Step());
 		}
 	}
 }

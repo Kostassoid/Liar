@@ -15,31 +15,38 @@ namespace Kostassoid.Liar
 {
 	using System;
 
-	public interface IGenerator
+	public class Session
 	{
-		object GetNext(GeneratorContext context);
-	}
+		static Session _current;
 
-	public interface IGenerator<out T> : IGenerator
-	{
-		new T GetNext(GeneratorContext context);
-	}
+		readonly int _seed;
+		Random _random;
 
-	public class GeneratorContext
-	{
-		
-	}
-
-	public class Int32Generator : IGenerator<int>
-	{
-		public int GetNext(GeneratorContext context)
+		public static Session Current
 		{
-			throw new NotImplementedException();
+			get { return _current ?? (_current = new Session(666)); }
 		}
 
-		object IGenerator.GetNext(GeneratorContext context)
+		public Random Random
 		{
-			return GetNext(context);
+			get { return _random; }
+		}
+
+		private Session(int seed)
+		{
+			_seed = seed;
+
+			Reset();
+		}
+
+		public void Start(int seed)
+		{
+			_current = new Session(seed);
+		}
+
+		public void Reset()
+		{
+			_random = new Random(_seed);
 		}
 	}
 }

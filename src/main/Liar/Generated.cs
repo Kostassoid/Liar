@@ -15,31 +15,12 @@ namespace Kostassoid.Liar
 {
 	using System;
 
-	public interface IGenerator
+	public static class Generated
 	{
-		object GetNext(GeneratorContext context);
-	}
-
-	public interface IGenerator<out T> : IGenerator
-	{
-		new T GetNext(GeneratorContext context);
-	}
-
-	public class GeneratorContext
-	{
-		
-	}
-
-	public class Int32Generator : IGenerator<int>
-	{
-		public int GetNext(GeneratorContext context)
+		public static Builder<int> PinCode()
 		{
-			throw new NotImplementedException();
+			return () => Session.Current.Random.Next(1000, 10000);
 		}
-
-		object IGenerator.GetNext(GeneratorContext context)
-		{
-			return GetNext(context);
-		}
+		 
 	}
 }

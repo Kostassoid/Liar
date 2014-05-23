@@ -1,4 +1,4 @@
-﻿// Copyright 2014 Konstantin Alexandroff
+// Copyright 2014 Konstantin Alexandroff
 //   
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 // this file except in compliance with the License. You may obtain a copy of the 
@@ -11,35 +11,21 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar
+namespace Kostassoid.Liar.Tools
 {
-	using System;
+	using System.Collections.Generic;
 
-	public interface IGenerator
+	internal class ReferenceEqualityComparer : EqualityComparer<object>
 	{
-		object GetNext(GeneratorContext context);
-	}
-
-	public interface IGenerator<out T> : IGenerator
-	{
-		new T GetNext(GeneratorContext context);
-	}
-
-	public class GeneratorContext
-	{
-		
-	}
-
-	public class Int32Generator : IGenerator<int>
-	{
-		public int GetNext(GeneratorContext context)
+		public override bool Equals(object x, object y)
 		{
-			throw new NotImplementedException();
+			return ReferenceEquals(x, y);
 		}
 
-		object IGenerator.GetNext(GeneratorContext context)
+		public override int GetHashCode(object obj)
 		{
-			return GetNext(context);
+			if (obj == null) return 0;
+			return obj.GetHashCode();
 		}
 	}
 }

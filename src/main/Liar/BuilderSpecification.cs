@@ -14,32 +14,25 @@
 namespace Kostassoid.Liar
 {
 	using System;
+	using System.Linq.Expressions;
 
-	public interface IGenerator
+	public class BuilderSpecification<T>
 	{
-		object GetNext(GeneratorContext context);
-	}
+		Func<T> _constructor;
 
-	public interface IGenerator<out T> : IGenerator
-	{
-		new T GetNext(GeneratorContext context);
-	}
-
-	public class GeneratorContext
-	{
-		
-	}
-
-	public class Int32Generator : IGenerator<int>
-	{
-		public int GetNext(GeneratorContext context)
+		internal Builder<T> GetBuilder()
 		{
 			throw new NotImplementedException();
 		}
 
-		object IGenerator.GetNext(GeneratorContext context)
+		public void ConstructUsing(Func<T> constructor)
 		{
-			return GetNext(context);
+			_constructor = constructor;
+		}
+
+		public void Set(Expression<Func<T, object>> propertyExpression)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
