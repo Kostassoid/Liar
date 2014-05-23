@@ -11,35 +11,14 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar
+namespace Kostassoid.Liar.Generators
 {
-	public class Imagine<T>
+	public class PinCodeGenerator :
+		IGenerator<int>
 	{
-		static readonly IValuePicker<T> Picker = new ValuePicker<T>();
-
-		public static T Default()
+		public int GetNext(Session session)
 		{
-			return Picker.Default();
-		}
-
-		public static T Like(T template)
-		{
-			return Picker.Like(template);
-		}
-
-		public static T Any()
-		{
-			return Picker.Any();
-		}
-
-		public static T As(Builder<T> builder)
-		{
-			return Picker.As(builder);
-		}
-
-		public static IGeneratorPicker<T> As()
-		{
-			return Picker.As();
+			return session.Random.Next(1000, 10000);
 		}
 	}
 }

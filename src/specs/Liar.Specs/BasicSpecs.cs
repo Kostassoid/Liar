@@ -14,7 +14,7 @@
 namespace Kostassoid.Liar.Specs
 {
 	using System;
-	using System.Security.Cryptography.X509Certificates;
+	using Generators;
 	using Machine.Specifications;
 
 	// ReSharper disable InconsistentNaming
@@ -86,7 +86,7 @@ namespace Kostassoid.Liar.Specs
 
 			Because of = () =>
 			{
-				_value = Imagine<int>.As(Generated.PinCode());
+				_value = Imagine<int>.As().PinCode();
 			};
 
 			It should_comply_with_rules = () =>
@@ -125,7 +125,8 @@ namespace Kostassoid.Liar.Specs
 				var someBoo = Define<Boo>.As(b =>
 				{
 					b.ConstructUsing(() => new Boo());
-					//b.Set(x => x.A).Is.PinCode;
+					b.Set(x => x.A, v => v.As().PinCode());
+					b.Set(x => x.B, v => v.Any());
 				});
 
 				_value = Imagine<Boo>.As(someBoo);

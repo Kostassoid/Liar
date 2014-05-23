@@ -15,14 +15,26 @@ namespace Kostassoid.Liar
 {
 	using System;
 	using System.Linq.Expressions;
+	using Tools;
 
 	public class BuilderSpecification<T>
 	{
 		Func<T> _constructor;
+		Action<T> _mods;
 
 		internal Builder<T> GetBuilder()
 		{
-			throw new NotImplementedException();
+			return () =>
+				   {
+					   var instance = _constructor();
+
+					   if (_mods != null)
+					   {
+						   _mods(instance);
+					   }
+
+					   return instance;
+				   };
 		}
 
 		public void ConstructUsing(Func<T> constructor)
@@ -30,9 +42,9 @@ namespace Kostassoid.Liar
 			_constructor = constructor;
 		}
 
-		public void Set(Expression<Func<T, object>> propertyExpression)
+		public void Set<TProp>(Expression<Func<T, TProp>> propertyExpression, Func<IValuePicker<TProp>, TProp> valueFunc)
 		{
-			throw new NotImplementedException();
+			_mods += obj => obj.SetPropertyValue(propertyExpression, valueFunc(new ValuePicker<TProp>()));
 		}
 	}
 }

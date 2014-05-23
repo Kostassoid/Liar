@@ -13,33 +13,12 @@
 
 namespace Kostassoid.Liar
 {
-	public class Imagine<T>
+	public interface IValuePicker<T>
 	{
-		static readonly IValuePicker<T> Picker = new ValuePicker<T>();
-
-		public static T Default()
-		{
-			return Picker.Default();
-		}
-
-		public static T Like(T template)
-		{
-			return Picker.Like(template);
-		}
-
-		public static T Any()
-		{
-			return Picker.Any();
-		}
-
-		public static T As(Builder<T> builder)
-		{
-			return Picker.As(builder);
-		}
-
-		public static IGeneratorPicker<T> As()
-		{
-			return Picker.As();
-		}
+		T Any();
+		T Default();
+		T Like(T template);
+		T As(Builder<T> builder);
+		IGeneratorPicker<T> As();
 	}
 }

@@ -45,16 +45,22 @@
     <Compile Include="Builder.cs" />
     <Compile Include="BuilderSpecification.cs" />
     <Compile Include="Define.cs" />
-    <Compile Include="Generated.cs" />
+    <Compile Include="Generators\PinCodeGenerator.cs" />
+    <Compile Include="Generators\GeneratorPickerEx.cs" />
+    <Compile Include="Generators\PrimitiveDefaultGenerators.cs" />
     <Compile Include="Generators\Registry.cs" />
-    <Compile Include="IGenerator.cs" />
+    <Compile Include="Generators\IGenerator.cs" />
+    <Compile Include="IGeneratorPicker.cs" />
     <Compile Include="Imagine.cs" />
+    <Compile Include="IValuePicker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Tools\ArrayExtensions.cs" />
     <Compile Include="Tools\ArrayTraverse.cs" />
+    <Compile Include="Tools\LambdaExtensions.cs" />
     <Compile Include="Tools\ObjectExtensions.cs" />
     <Compile Include="Tools\ReferenceEqualityComparer.cs" />
+    <Compile Include="ValuePicker.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

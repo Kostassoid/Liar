@@ -11,35 +11,25 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar
+namespace Kostassoid.Liar.Tools
 {
-	public class Imagine<T>
+	using System;
+	using System.Linq.Expressions;
+	using System.Reflection;
+
+	internal static class LambdaExtensions
 	{
-		static readonly IValuePicker<T> Picker = new ValuePicker<T>();
-
-		public static T Default()
+		public static void SetPropertyValue<T, TProp>(this T target, Expression<Func<T, TProp>> memberLamda, TProp value)
 		{
-			return Picker.Default();
-		}
-
-		public static T Like(T template)
-		{
-			return Picker.Like(template);
-		}
-
-		public static T Any()
-		{
-			return Picker.Any();
-		}
-
-		public static T As(Builder<T> builder)
-		{
-			return Picker.As(builder);
-		}
-
-		public static IGeneratorPicker<T> As()
-		{
-			return Picker.As();
+			var memberSelectorExpression = memberLamda.Body as MemberExpression;
+			if (memberSelectorExpression != null)
+			{
+				var property = memberSelectorExpression.Member as PropertyInfo;
+				if (property != null)
+				{
+					property.SetValue(target, value, null);
+				}
+			}
 		}
 	}
 }

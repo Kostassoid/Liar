@@ -11,16 +11,14 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar
+namespace Kostassoid.Liar.Generators
 {
-	using System;
-
-	public static class Generated
+	public interface IGenerator
 	{
-		public static Builder<int> PinCode()
-		{
-			return () => Session.Current.Random.Next(1000, 10000);
-		}
-		 
+	}
+
+	public interface IGenerator<out T> : IGenerator
+	{
+		T GetNext(Session session);
 	}
 }
