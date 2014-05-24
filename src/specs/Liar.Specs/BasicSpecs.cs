@@ -14,6 +14,8 @@
 namespace Kostassoid.Liar.Specs
 {
 	using System;
+	using System.Collections.Generic;
+	using System.Linq;
 	using Generators;
 	using Machine.Specifications;
 
@@ -116,7 +118,7 @@ namespace Kostassoid.Liar.Specs
 
 		[Subject(typeof(Imagine<>), "Basic")]
 		[Tags("Unit")]
-		public class when_generating_ints_using_specification
+		public class when_generating_objects_using_specification
 		{
 			static Boo _value;
 
@@ -136,6 +138,30 @@ namespace Kostassoid.Liar.Specs
 			{
 				_value.A.ShouldBeGreaterThanOrEqualTo(1000);
 				_value.A.ShouldBeLessThan(10000);
+			};
+		}
+
+		[Subject(typeof(Imagine<>), "Basic")]
+		[Tags("Unit")]
+		public class when_generating_many_objects_using_specification
+		{
+			static IList<Boo> _values;
+
+			Because of = () =>
+			{
+				var someBoo = Define<Boo>.As(b =>
+				{
+					b.ConstructUsing(() => new Boo());
+					b.Set(x => x.A, v => v.As().PinCode());
+					b.Set(x => x.B, v => v.Any());
+				});
+
+				_values = Imagine<Boo>.Seq(x => x.As(someBoo)).Take(10).ToList();
+			};
+
+			It should_comply_with_rules = () =>
+			{
+				_values.ShouldEachConformTo(b => b.A >= 1000 && b.A < 10000);
 			};
 		}
 

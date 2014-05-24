@@ -13,6 +13,9 @@
 
 namespace Kostassoid.Liar
 {
+	using System;
+	using System.Collections.Generic;
+
 	public class Imagine<T>
 	{
 		static readonly IValuePicker<T> Picker = new ValuePicker<T>();
@@ -39,7 +42,12 @@ namespace Kostassoid.Liar
 
 		public static IGeneratorPicker<T> As()
 		{
-			return Picker.As();
+			return new GeneratorPicker<T>();
+		}
+
+		public static IEnumerable<T> Seq(Func<IValuePicker<T>, T> valueFunc)
+		{
+			yield return valueFunc(new ValuePicker<T>());
 		}
 	}
 }
