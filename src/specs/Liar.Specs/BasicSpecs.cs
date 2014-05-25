@@ -141,30 +141,6 @@ namespace Kostassoid.Liar.Specs
 			};
 		}
 
-		[Subject(typeof(Imagine<>), "Basic")]
-		[Tags("Unit")]
-		public class when_generating_many_objects_using_specification
-		{
-			static IList<Boo> _values;
-
-			Because of = () =>
-			{
-				var someBoo = Define<Boo>.As(b =>
-				{
-					b.ConstructUsing(() => new Boo());
-					b.Set(x => x.A, v => v.As().PinCode());
-					b.Set(x => x.B, v => v.Any());
-				});
-
-				_values = Imagine<Boo>.Seq(x => x.As(someBoo)).Take(10).ToList();
-			};
-
-			It should_comply_with_rules = () =>
-			{
-				_values.ShouldEachConformTo(b => b.A >= 1000 && b.A < 10000);
-			};
-		}
-
 		public class Boo
 		{
 			public int A { get; set; }

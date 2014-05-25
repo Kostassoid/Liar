@@ -15,6 +15,7 @@ namespace Kostassoid.Liar
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 
 	public class Imagine<T>
 	{
@@ -47,7 +48,15 @@ namespace Kostassoid.Liar
 
 		public static IEnumerable<T> Seq(Func<IValuePicker<T>, T> valueFunc)
 		{
-			yield return valueFunc(new ValuePicker<T>());
+			for (;;)
+			{
+				yield return valueFunc(new ValuePicker<T>());
+			}
+		}
+
+		public static IList<T> List(int count, Func<IValuePicker<T>, T> valueFunc)
+		{
+			return Seq(valueFunc).Take(count).ToList();
 		}
 	}
 }
