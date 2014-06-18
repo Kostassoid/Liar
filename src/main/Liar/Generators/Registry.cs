@@ -31,7 +31,7 @@ namespace Kostassoid.Liar.Generators
 		{
 			foreach (var i in generator.GetType().GetInterfaces())
 			{
-				if (!i.IsGenericType || i.GetGenericTypeDefinition() != typeof(IGenerator<>))
+				if (!i.IsGenericType || i.GetGenericTypeDefinition() != typeof(IGeneratorOf<>))
 				{
 					continue;
 				}
@@ -49,7 +49,7 @@ namespace Kostassoid.Liar.Generators
 				throw new InvalidOperationException(string.Format("No default generator for type [{0}] is registered", typeof(T).Name));
 			}
 
-			return ((IGenerator<T>)generator).GetNext(Session.Current);
+			return ((IGeneratorOf<T>)generator).GetNext(Session.Current);
 		}
 	}
 }

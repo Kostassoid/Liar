@@ -19,34 +19,42 @@ namespace Kostassoid.Liar
 	{
 		static Session _current;
 
-		readonly int _seed;
-		Random _random;
-
 		public static Session Current
 		{
-			get { return _current ?? (_current = new Session(666)); }
+			get
+			{
+				if (_current == null)
+				{
+					Start();
+				}
+				return _current;
+			}
 		}
 
-		public Random Random
+		public SequenceGenerator Sequence
 		{
-			get { return _random; }
+			get;
+			private set;
 		}
 
-		private Session(int seed)
+		private Session(SequenceGenerator sequence)
 		{
-			_seed = seed;
-
-			Reset();
+			Sequence = sequence;
 		}
 
-		public void Start(int seed)
+		public void Start(SequenceGenerator sequence)
 		{
-			_current = new Session(seed);
+			_current = new Session(sequence);
+		}
+
+		public void Start()
+		{
+			Start(new RandomSequenceGenerator (666));
 		}
 
 		public void Reset()
 		{
-			_random = new Random(_seed);
+			Sequence.Reset();
 		}
 	}
 }

@@ -22,7 +22,7 @@ namespace Kostassoid.Liar.Specs
 	// ReSharper disable UnusedMember.Local
 	public class SequenceSpecs
 	{
-		[Subject(typeof(Imagine<>), "Sequence")]
+		[Subject(typeof(A<>), "Sequence")]
 		[Tags("Unit")]
 		public class when_generating_sequence
 		{
@@ -30,7 +30,7 @@ namespace Kostassoid.Liar.Specs
 
 			Because of = () =>
 			{
-				_values = Imagine<int>.Seq(x => x.As().PinCode()).Take(10).ToList();
+				_values = A<int>.Seq(x => x.As().PinCode()).Take(10).ToList();
 			};
 
 			It should_produce_different_values = () => _values.Distinct().Count().ShouldBeGreaterThan(1);
@@ -38,7 +38,7 @@ namespace Kostassoid.Liar.Specs
 			It should_comply_with_rules = () => _values.ShouldEachConformTo(b => b >= 1000 && b < 10000);
 		}
 
-		[Subject(typeof(Imagine<>), "Sequence")]
+		[Subject(typeof(A<>), "Sequence")]
 		[Tags("Unit")]
 		public class when_generating_list
 		{
@@ -46,7 +46,7 @@ namespace Kostassoid.Liar.Specs
 
 			Because of = () =>
 			{
-				_values = Imagine<int>.List(13, x => x.As().PinCode());
+				_values = A<int>.List(13, x => x.As().PinCode());
 			};
 
 			It should_produce_different_values = () => _values.Distinct().Count().ShouldBeGreaterThan(1);

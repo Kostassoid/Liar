@@ -13,12 +13,12 @@
 
 namespace Kostassoid.Liar.Generators
 {
-	public class PinCodeGenerator :
-		IGeneratorOf<int>
+	public interface IGenerator
 	{
-		public int GetNext(SequenceGenerator sequence)
-		{
-			return sequence.GetNext() % 9000 + 1000;
-		}
+	}
+
+	public interface IGeneratorOf<out T> : IGenerator
+	{
+		T GetNext(SequenceGenerator sequence);
 	}
 }

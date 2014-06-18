@@ -1,4 +1,4 @@
-﻿// Copyright 2014 Konstantin Alexandroff
+// Copyright 2014 Konstantin Alexandroff
 //   
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 // this file except in compliance with the License. You may obtain a copy of the 
@@ -11,14 +11,15 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar.Generators
+using System;
+using System.Collections.Generic;
+
+namespace Kostassoid.Liar
 {
-	public class PinCodeGenerator :
-		IGeneratorOf<int>
+	public interface ISpecificationOf<T>
 	{
-		public int GetNext(SequenceGenerator sequence)
-		{
-			return sequence.GetNext() % 9000 + 1000;
-		}
+		T Value { get; }
+		IEnumerable<T> Sequence { get; }
 	}
 }
+

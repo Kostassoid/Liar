@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -49,9 +49,7 @@
     <Compile Include="Generators\GeneratorPickerEx.cs" />
     <Compile Include="Generators\PrimitiveDefaultGenerators.cs" />
     <Compile Include="Generators\Registry.cs" />
-    <Compile Include="Generators\IGenerator.cs" />
     <Compile Include="IGeneratorPicker.cs" />
-    <Compile Include="Imagine.cs" />
     <Compile Include="IValuePicker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session.cs" />
@@ -61,6 +59,12 @@
     <Compile Include="Tools\ObjectExtensions.cs" />
     <Compile Include="Tools\ReferenceEqualityComparer.cs" />
     <Compile Include="ValuePicker.cs" />
+    <Compile Include="ISpecificationOf.cs" />
+    <Compile Include="SpecificationOf.cs" />
+    <Compile Include="Generators\IGeneratorOf.cs" />
+    <Compile Include="Sequence\SequenceGenerator.cs" />
+    <Compile Include="Sequence\RandomSequenceGenerator.cs" />
+    <Compile Include="A.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -70,4 +74,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Sequence\" />
+  </ItemGroup>
 </Project>

@@ -16,35 +16,35 @@ namespace Kostassoid.Liar.Generators
 	using System;
 
 	public class PrimitiveDefaultGenerators :
-		IGenerator<bool>,
-		IGenerator<byte>,
-		IGenerator<short>,
-		IGenerator<ushort>,
-		IGenerator<int>,
-		IGenerator<uint>,
-		IGenerator<string>
+		IGeneratorOf<bool>,
+		IGeneratorOf<byte>,
+		IGeneratorOf<short>,
+		IGeneratorOf<ushort>,
+		IGeneratorOf<int>,
+		IGeneratorOf<uint>,
+		IGeneratorOf<string>
 	{
-		int IGenerator<int>.GetNext(Session session)
+		int IGeneratorOf<int>.GetNext(Session session)
 		{
 			return session.Random.Next(int.MinValue, int.MaxValue);
 		}
 
-		uint IGenerator<uint>.GetNext(Session session)
+		uint IGeneratorOf<uint>.GetNext(Session session)
 		{
 			return (uint)session.Random.Next(int.MinValue, int.MaxValue);
 		}
 
-		byte IGenerator<byte>.GetNext(Session session)
+		byte IGeneratorOf<byte>.GetNext(Session session)
 		{
 			return (byte)session.Random.Next(byte.MinValue, byte.MaxValue);
 		}
 
-		short IGenerator<short>.GetNext(Session session)
+		short IGeneratorOf<short>.GetNext(Session session)
 		{
 			return (short)session.Random.Next(short.MinValue, short.MaxValue);
 		}
 
-		ushort IGenerator<ushort>.GetNext(Session session)
+		ushort IGeneratorOf<ushort>.GetNext(Session session)
 		{
 			return (ushort)session.Random.Next(ushort.MinValue, ushort.MaxValue);
 		}
@@ -54,7 +54,7 @@ namespace Kostassoid.Liar.Generators
 			return session.Random.Next(2) == 0;
 		}
 
-		string IGenerator<string>.GetNext(Session session)
+		string IGeneratorOf<string>.GetNext(Session session)
 		{
 			return Guid.NewGuid().ToString("n");
 		}

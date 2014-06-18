@@ -17,28 +17,26 @@ namespace Kostassoid.Liar
 	using System.Collections.Generic;
 	using System.Linq;
 
-	public class Imagine<T>
+	public class A<T>
 	{
-		static readonly IValuePicker<T> Picker = new ValuePicker<T>();
-
-		public static T Default()
+		public static ISpecificationOf<T> Any()
 		{
-			return Picker.Default();
+			return new SpecificationOf<T>(new AnyGeneratorOf<T>());
 		}
 
-		public static T Like(T template)
+		public static ISpecificationOf<T> Default()
 		{
-			return Picker.Like(template);
+			return new SpecificationOf<T>(new DefaultGeneratorOf<T>());
 		}
 
-		public static T Any()
+		public static ISpecificationOf<T> Like(T template)
 		{
-			return Picker.Any();
+			return new SpecificationOf<T>(new LikeGeneratorOf<T>(template));
 		}
 
-		public static T As(Builder<T> builder)
+		public static ISpecificationOf<T> As(Builder<T> builder)
 		{
-			return Picker.As(builder);
+			return new SpecificationOf<T>(new BuilderGeneratorOf<T>(builder));
 		}
 
 		public static IGeneratorPicker<T> As()
@@ -46,17 +44,5 @@ namespace Kostassoid.Liar
 			return new GeneratorPicker<T>();
 		}
 
-		public static IEnumerable<T> Seq(Func<IValuePicker<T>, T> valueFunc)
-		{
-			for (;;)
-			{
-				yield return valueFunc(new ValuePicker<T>());
-			}
-		}
-
-		public static IList<T> List(int count, Func<IValuePicker<T>, T> valueFunc)
-		{
-			return Seq(valueFunc).Take(count).ToList();
-		}
 	}
 }

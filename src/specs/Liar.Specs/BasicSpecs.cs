@@ -23,7 +23,7 @@ namespace Kostassoid.Liar.Specs
 	// ReSharper disable UnusedMember.Local
 	public class BasicSpecs
 	{
-		[Subject(typeof(Imagine<>), "Basic")]
+		[Subject(typeof(A<>), "Basic")]
 		[Tags("Unit")]
 		public class when_generating_default_int
 		{
@@ -31,14 +31,24 @@ namespace Kostassoid.Liar.Specs
 
 			Because of = () =>
 			{
-				_value = Imagine<int>.Default();
+				_value = A<int>.Default().Value;
+				/*
+				 * _v = A<int>.Any().Value;
+				 * _v = A<int>.Default().Value;
+				 * _v = A<int>.Any().Between(10, 300).Value;
+				 * _v = A<int>.Like(66).Value;
+				 * _v = A<int>.Any().Between(5, 55).Sequence;
+				 * _v = A<int>.As(i => i).Value;
+				 * _v = A<int>.As().Pincode().Value;
+				 * _v = A<int>.Any().Over(() => Session.Generator).Value;
+				 */
 			};
 
 			It should_be_deafult = () => _value.ShouldEqual(default(int));
 
 		}
 
-		[Subject(typeof(Imagine<>), "Basic")]
+		[Subject(typeof(A<>), "Basic")]
 		[Tags("Unit")]
 		public class when_generating_value_instance_using_template
 		{
@@ -46,14 +56,14 @@ namespace Kostassoid.Liar.Specs
 
 			Because of = () =>
 			{
-				_value = Imagine<int>.Like(33);
+				_value = A<int>.Like(33).Value;
 			};
 
 			It should_equal_template_value = () => _value.ShouldEqual(33);
 
 		}
 
-		[Subject(typeof(Imagine<>), "Basic")]
+		[Subject(typeof(A<>), "Basic")]
 		[Tags("Unit")]
 		public class when_generating_ref_instance_using_template
 		{
@@ -69,7 +79,7 @@ namespace Kostassoid.Liar.Specs
 					C = Guid.NewGuid()
 				};
 
-				_value = Imagine<Boo>.Like(_template);
+				_value = A<Boo>.Like(_template);
 			};
 
 			It should_equal_template_value = () =>
@@ -80,7 +90,7 @@ namespace Kostassoid.Liar.Specs
 			};
 		}
 
-		[Subject(typeof(Imagine<>), "Basic")]
+		[Subject(typeof(A<>), "Basic")]
 		[Tags("Unit")]
 		public class when_generating_ints_using_generator
 		{
@@ -88,7 +98,7 @@ namespace Kostassoid.Liar.Specs
 
 			Because of = () =>
 			{
-				_value = Imagine<int>.As().PinCode();
+				_value = A<int>.As().PinCode();
 			};
 
 			It should_comply_with_rules = () =>
@@ -99,7 +109,7 @@ namespace Kostassoid.Liar.Specs
 
 		}
 
-		[Subject(typeof(Imagine<>), "Basic")]
+		[Subject(typeof(A<>), "Basic")]
 		[Tags("Unit")]
 		public class when_generating_ints_using_rules
 		{
@@ -107,16 +117,16 @@ namespace Kostassoid.Liar.Specs
 
 			Because of = () =>
 			{
-				_value = Imagine<Boo>.As(() => new Boo
+				_value = A<Boo>.As(() => new Boo
 				{
-					A = Imagine<int>.Any()
+					A = A<int>.Any()
 				});
 			};
 
 			It should_comply_with_rules = () => _value.A.ShouldNotEqual(default(int));
 		}
 
-		[Subject(typeof(Imagine<>), "Basic")]
+		[Subject(typeof(A<>), "Basic")]
 		[Tags("Unit")]
 		public class when_generating_objects_using_specification
 		{
@@ -131,7 +141,7 @@ namespace Kostassoid.Liar.Specs
 					b.Set(x => x.B, v => v.Any());
 				});
 
-				_value = Imagine<Boo>.As(someBoo);
+				_value = A<Boo>.As(someBoo);
 			};
 
 			It should_comply_with_rules = () =>

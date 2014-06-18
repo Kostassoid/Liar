@@ -11,14 +11,38 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar.Generators
+using System;
+using Kostassoid.Liar.Generators;
+
+namespace Kostassoid.Liar
 {
-	public class PinCodeGenerator :
-		IGeneratorOf<int>
+	public class SpecificationOf<T> : ISpecificationOf<T>
 	{
-		public int GetNext(SequenceGenerator sequence)
+		IGeneratorOf<T> _generator;
+
+		public T Value
 		{
-			return sequence.GetNext() % 9000 + 1000;
+			get
+			{
+				return _generator.GetNext (Session.Current.Sequence);
+			}
+		}
+
+		public System.Collections.Generic.IEnumerable<T> Sequence
+		{
+			get
+			{
+				for (;;)
+				{
+					return _generator.GetNext (Session.Current.Sequence);
+				}
+			}
+		}
+
+		public SpecificationOf (IGeneratorOf<T> generator)
+		{
+			_generator = generator;
 		}
 	}
 }
+

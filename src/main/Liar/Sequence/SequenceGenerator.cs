@@ -11,14 +11,22 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar.Generators
-{
-	public interface IGenerator
-	{
-	}
+using System;
 
-	public interface IGenerator<out T> : IGenerator
+namespace Kostassoid.Liar
+{
+	public abstract class SequenceGenerator
 	{
-		T GetNext(Session session);
+		protected int Seed { get; private set; }
+
+		protected SequenceGenerator(int seed)
+		{
+			Seed = seed;
+		}
+
+		public abstract void Reset();
+
+		public abstract int GetNext();
 	}
 }
+
