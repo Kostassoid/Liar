@@ -11,17 +11,39 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
+using System;
+using Kostassoid.Liar.Generators;
+using System.Collections.Generic;
+
 namespace Kostassoid.Liar
 {
-	using System;
-
-	public static class Define<T>
+	public class Specification<T> : ISpecification<T>
 	{
-		public static Builder<T> As(Action<BuilderSpecification<T>> builder)
+		public IGenerator<T> Generator { get; set; }
+
+		public T Value
 		{
-			var specification = new BuilderSpecification<T>();
-			builder(specification);
-			return specification.GetBuilder();
+			get
+			{
+				return Generator.GetNext (Session.Current.Sequence);
+			}
+		}
+
+		public IEnumerable<T> Sequence
+		{
+			get
+			{
+				for (;;)
+				{
+					yield return Generator.GetNext (Session.Current.Sequence);
+				}
+			}
+		}
+
+		public Specification (IGenerator<T> generator)
+		{
+			Generator = generator;
 		}
 	}
 }
+

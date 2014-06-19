@@ -1,4 +1,4 @@
-// Copyright 2014 Konstantin Alexandroff
+﻿// Copyright 2014 Konstantin Alexandroff
 //   
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 // this file except in compliance with the License. You may obtain a copy of the 
@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace Kostassoid.Liar
 {
-	public interface ISpecificationOf<T>
+	public interface IValueSyntax<T>
 	{
 		T Value { get; }
 		IEnumerable<T> Sequence { get; }

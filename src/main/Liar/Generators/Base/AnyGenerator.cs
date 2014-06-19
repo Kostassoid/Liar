@@ -11,32 +11,39 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
+using System;
+using Kostassoid.Liar.Generators;
+
 namespace Kostassoid.Liar
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-
-	public class A<T>
+	public class AnyGenerator<T> : IGenerator<T>
 	{
-		public static IAnySyntax<T> Any()
+		public T GetNext (SequenceGenerator sequence)
 		{
-			return new Specification<T>(new AnyGenerator<T>());
+			return (T)BuildValue (sequence);
 		}
 
-		public static ISpecification<T> Empty()
+		object BuildValue(SequenceGenerator sequence)
 		{
-			return new Specification<T>(new EmptyGenerator<T>());
-		}
+			var t = typeof(T);
 
-		public static ISpecification<T> Like(T template)
-		{
-			return new Specification<T>(new TemplateGenerator<T>(template));
-		}
+			if (t == typeof(int))
+			{
+				return (int)sequence.GetNext();
+			}
 
-		public static ISpecification<T> As(Builder<T> builder)
-		{
-			return new Specification<T>(new BuilderGenerator<T>(builder));
+			if (t == typeof(uint))
+			{
+				return (uint)sequence.GetNext();
+			}
+
+			if (t == typeof(bool))
+			{
+				return (bool)(sequence.GetNext() % 2 == 0);
+			}
+
+			throw new NotImplementedException (string.Format ("No value builder found for [{0}].", t.Name));
 		}
 	}
 }
+

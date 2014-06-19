@@ -43,12 +43,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Builder.cs" />
-    <Compile Include="BuilderSpecification.cs" />
-    <Compile Include="Define.cs" />
     <Compile Include="Generators\PinCodeGenerator.cs" />
-    <Compile Include="Generators\GeneratorPickerEx.cs" />
-    <Compile Include="Generators\PrimitiveDefaultGenerators.cs" />
-    <Compile Include="Generators\Registry.cs" />
     <Compile Include="IGeneratorPicker.cs" />
     <Compile Include="IValuePicker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,13 +53,21 @@
     <Compile Include="Tools\LambdaExtensions.cs" />
     <Compile Include="Tools\ObjectExtensions.cs" />
     <Compile Include="Tools\ReferenceEqualityComparer.cs" />
-    <Compile Include="ValuePicker.cs" />
-    <Compile Include="ISpecificationOf.cs" />
-    <Compile Include="SpecificationOf.cs" />
-    <Compile Include="Generators\IGeneratorOf.cs" />
     <Compile Include="Sequence\SequenceGenerator.cs" />
     <Compile Include="Sequence\RandomSequenceGenerator.cs" />
     <Compile Include="A.cs" />
+    <Compile Include="Syntax\IAnySyntax.cs" />
+    <Compile Include="Syntax\IValueSyntax.cs" />
+    <Compile Include="Syntax\IDefaultSyntax.cs" />
+    <Compile Include="Syntax\ILikeSyntax.cs" />
+    <Compile Include="Syntax\IBuilderSyntax.cs" />
+    <Compile Include="Generators\Base\AnyGenerator.cs" />
+    <Compile Include="Generators\IGenerator.cs" />
+    <Compile Include="ISpecification.cs" />
+    <Compile Include="Specification.cs" />
+    <Compile Include="Generators\Base\TemplateGenerator.cs" />
+    <Compile Include="Generators\Base\EmptyGenerator.cs" />
+    <Compile Include="Generators\Base\BuilderGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -76,5 +79,7 @@
   -->
   <ItemGroup>
     <Folder Include="Sequence\" />
+    <Folder Include="Syntax\" />
+    <Folder Include="Generators\Base\" />
   </ItemGroup>
 </Project>

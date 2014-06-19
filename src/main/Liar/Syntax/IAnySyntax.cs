@@ -11,13 +11,12 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar.Generators
+using System;
+
+namespace Kostassoid.Liar
 {
-	public static class GeneratorPickerEx
+	public interface IAnySyntax<T> : IValueSyntax<T>
 	{
-		public static int PinCode(this IGeneratorPicker<int> picker)
-		{
-			return new PinCodeGenerator().GetNext(Session.Current);
-		}
 	}
 }
+

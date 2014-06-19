@@ -31,7 +31,7 @@ namespace Kostassoid.Liar.Specs
 
 			Because of = () =>
 			{
-				_value = A<int>.Default().Value;
+				_value = A<int>.Empty().Value;
 				/*
 				 * _v = A<int>.Any().Value;
 				 * _v = A<int>.Default().Value;
@@ -79,7 +79,7 @@ namespace Kostassoid.Liar.Specs
 					C = Guid.NewGuid()
 				};
 
-				_value = A<Boo>.Like(_template);
+				_value = A<Boo>.Like(_template).Value;
 			};
 
 			It should_equal_template_value = () =>
@@ -98,7 +98,7 @@ namespace Kostassoid.Liar.Specs
 
 			Because of = () =>
 			{
-				_value = A<int>.As().PinCode();
+				_value = A<int>.Any().PinCode().Value;
 			};
 
 			It should_comply_with_rules = () =>
@@ -117,38 +117,14 @@ namespace Kostassoid.Liar.Specs
 
 			Because of = () =>
 			{
-				_value = A<Boo>.As(() => new Boo
-				{
-					A = A<int>.Any()
-				});
+				_value = A<Boo>.As(_ => new Boo
+					{
+						A = A<int>.Any().Value
+					})
+					.Value;
 			};
 
 			It should_comply_with_rules = () => _value.A.ShouldNotEqual(default(int));
-		}
-
-		[Subject(typeof(A<>), "Basic")]
-		[Tags("Unit")]
-		public class when_generating_objects_using_specification
-		{
-			static Boo _value;
-
-			Because of = () =>
-			{
-				var someBoo = Define<Boo>.As(b =>
-				{
-					b.ConstructUsing(() => new Boo());
-					b.Set(x => x.A, v => v.As().PinCode());
-					b.Set(x => x.B, v => v.Any());
-				});
-
-				_value = A<Boo>.As(someBoo);
-			};
-
-			It should_comply_with_rules = () =>
-			{
-				_value.A.ShouldBeGreaterThanOrEqualTo(1000);
-				_value.A.ShouldBeLessThan(10000);
-			};
 		}
 
 		public class Boo

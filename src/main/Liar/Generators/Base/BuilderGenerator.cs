@@ -11,32 +11,25 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
+using System;
+using Kostassoid.Liar.Generators;
+using Kostassoid.Liar.Tools;
+
 namespace Kostassoid.Liar
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-
-	public class A<T>
+	public class BuilderGenerator<T> : IGenerator<T>
 	{
-		public static IAnySyntax<T> Any()
+		Builder<T> _builder;
+
+		public BuilderGenerator (Builder<T> builder)
 		{
-			return new Specification<T>(new AnyGenerator<T>());
+			_builder = builder;
 		}
 
-		public static ISpecification<T> Empty()
+		public T GetNext (SequenceGenerator sequence)
 		{
-			return new Specification<T>(new EmptyGenerator<T>());
-		}
-
-		public static ISpecification<T> Like(T template)
-		{
-			return new Specification<T>(new TemplateGenerator<T>(template));
-		}
-
-		public static ISpecification<T> As(Builder<T> builder)
-		{
-			return new Specification<T>(new BuilderGenerator<T>(builder));
+			return _builder(sequence);
 		}
 	}
 }
+

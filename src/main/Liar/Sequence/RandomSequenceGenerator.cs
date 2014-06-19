@@ -31,7 +31,7 @@ namespace Kostassoid.Liar
 
 		public override int GetNext ()
 		{
-			return random.Next(0, int.MaxValue);
+			return random.Next(int.MinValue, int.MaxValue);
 		}
 	}
 }

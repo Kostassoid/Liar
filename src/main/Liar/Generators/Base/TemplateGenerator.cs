@@ -11,40 +11,25 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
+using System;
+using Kostassoid.Liar.Generators;
+using Kostassoid.Liar.Tools;
+
 namespace Kostassoid.Liar
 {
-	using System;
-	using System.Linq.Expressions;
-	using Tools;
-
-	public class BuilderSpecification<T>
+	public class TemplateGenerator<T> : IGenerator<T>
 	{
-		Func<T> _constructor;
-		Action<T> _mods;
+		T _template;
 
-		internal Builder<T> GetBuilder()
+		public TemplateGenerator (T template)
 		{
-			return () =>
-				   {
-					   var instance = _constructor();
-
-					   if (_mods != null)
-					   {
-						   _mods(instance);
-					   }
-
-					   return instance;
-				   };
+			_template = template;
 		}
 
-		public void ConstructUsing(Func<T> constructor)
+		public T GetNext (SequenceGenerator sequence)
 		{
-			_constructor = constructor;
-		}
-
-		public void Set<TProp>(Expression<Func<T, TProp>> propertyExpression, Func<IValuePicker<TProp>, TProp> valueFunc)
-		{
-			_mods += obj => obj.SetPropertyValue(propertyExpression, valueFunc(new ValuePicker<TProp>()));
+			return _template.Copy();
 		}
 	}
 }
+

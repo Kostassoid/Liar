@@ -12,37 +12,11 @@
 // specific language governing permissions and limitations under the License.
 
 using System;
-using Kostassoid.Liar.Generators;
 
 namespace Kostassoid.Liar
 {
-	public class SpecificationOf<T> : ISpecificationOf<T>
+	public interface IDefaultSyntax<T> : IValueSyntax<T>
 	{
-		IGeneratorOf<T> _generator;
-
-		public T Value
-		{
-			get
-			{
-				return _generator.GetNext (Session.Current.Sequence);
-			}
-		}
-
-		public System.Collections.Generic.IEnumerable<T> Sequence
-		{
-			get
-			{
-				for (;;)
-				{
-					return _generator.GetNext (Session.Current.Sequence);
-				}
-			}
-		}
-
-		public SpecificationOf (IGeneratorOf<T> generator)
-		{
-			_generator = generator;
-		}
 	}
 }
 

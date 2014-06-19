@@ -11,36 +11,17 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
+using System;
+using Kostassoid.Liar.Generators;
+
 namespace Kostassoid.Liar
 {
-	using Generators;
-	using Tools;
-
-	internal class ValuePicker<T> : IValuePicker<T>
+	public class EmptyGenerator<T> : IGenerator<T>
 	{
-		public T Any()
-		{
-			return Registry.Generate<T>();
-		}
-
-		public T Default()
+		public T GetNext (SequenceGenerator sequence)
 		{
 			return default(T);
 		}
-
-		public T Like(T template)
-		{
-			return template.Copy();
-		}
-
-		public T As(Builder<T> builder)
-		{
-			return builder();
-		}
-
-		public IGeneratorPicker<T> As()
-		{
-			return new GeneratorPicker<T>();
-		}
 	}
 }
+

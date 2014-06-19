@@ -25,7 +25,7 @@ namespace Kostassoid.Liar
 			{
 				if (_current == null)
 				{
-					Start();
+					_current = new Session(new RandomSequenceGenerator (666));
 				}
 				return _current;
 			}

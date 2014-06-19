@@ -10,15 +10,24 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
+using System;
 
 namespace Kostassoid.Liar.Generators
 {
-	public class PinCodeGenerator :
-		IGeneratorOf<int>
+	internal static class PinCodeGenerator
 	{
-		public int GetNext(SequenceGenerator sequence)
+		static int Generate(SequenceGenerator sequence)
 		{
-			return sequence.GetNext() % 9000 + 1000;
+			return Math.Abs(sequence.GetNext()) % 9000 + 1000;
+		}
+
+		public static IAnySyntax<int> PinCode(this IAnySyntax<int> syntax)
+		{
+			var s = syntax as ISpecification<int>;
+
+			s.Generator = new BuilderGenerator<int> (Generate);
+
+			return syntax;
 		}
 	}
 }

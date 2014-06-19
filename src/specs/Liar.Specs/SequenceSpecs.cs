@@ -30,7 +30,7 @@ namespace Kostassoid.Liar.Specs
 
 			Because of = () =>
 			{
-				_values = A<int>.Seq(x => x.As().PinCode()).Take(10).ToList();
+				_values = A<int>.Any().PinCode().Sequence.Take(10).ToList();
 			};
 
 			It should_produce_different_values = () => _values.Distinct().Count().ShouldBeGreaterThan(1);
@@ -38,23 +38,6 @@ namespace Kostassoid.Liar.Specs
 			It should_comply_with_rules = () => _values.ShouldEachConformTo(b => b >= 1000 && b < 10000);
 		}
 
-		[Subject(typeof(A<>), "Sequence")]
-		[Tags("Unit")]
-		public class when_generating_list
-		{
-			static IList<int> _values;
-
-			Because of = () =>
-			{
-				_values = A<int>.List(13, x => x.As().PinCode());
-			};
-
-			It should_produce_different_values = () => _values.Distinct().Count().ShouldBeGreaterThan(1);
-
-			It should_comply_with_rules = () => _values.ShouldEachConformTo(b => b >= 1000 && b < 10000);
-
-			It should_be_of_required_length = () => _values.Count.ShouldEqual(13);
-		}
 	}
 
 	// ReSharper restore InconsistentNaming
