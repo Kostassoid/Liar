@@ -11,63 +11,62 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
+using System.Linq;
+
 namespace Kostassoid.Liar.Specs
 {
+	using System;
 	using Machine.Specifications;
+	using Generators.Base;
 
 	// ReSharper disable InconsistentNaming
 	// ReSharper disable UnusedMember.Local
-	public class SessionSpecs
+	public class TemplateGeneratorSpecs
 	{
-		[Subject(typeof(Session))]
+		[Subject(typeof(TemplateGenerator<>))]
 		[Tags("Unit")]
-		public class when_getting_current_session
+		public class when_generating_value_instance_using_template
 		{
-			static Session _session;
+			static int _value;
 
 			Because of = () =>
 			{
-				_session = Session.Current;
+				_value = A<int>.Like(33).Value;
 			};
 
-			It should_be_created_once = () => _session.ShouldBeTheSameAs(Session.Current);
+			It should_equal_template_value = () => _value.ShouldEqual(33);
 
 		}
 
-		[Subject(typeof(Session))]
+		[Subject(typeof(TemplateGenerator<>))]
 		[Tags("Unit")]
-		public class when_starting_session
+		public class when_generating_class_instance_using_template
 		{
-			static Session _session;
+			static Boo _value;
+			static Boo _template;
 
 			Because of = () =>
 			{
-				_session = Session.Current;
-				Session.Start();
+				_template = new Boo
+				{
+					A = 13,
+					B = "this",
+					C = Guid.NewGuid()
+				};
+
+				_value = A<Boo>.Like(_template).Value;
 			};
 
-			It should_create_new_session = () => _session.ShouldNotBeTheSameAs(Session.Current);
-		}
+			It should_not_be_the_same_as_template = () =>
+				_value.ShouldNotBeTheSameAs(_template);
 
-		[Subject(typeof(Session))]
-		[Tags("Unit")]
-		public class when_resetting_session
-		{
-			static int _value1;
-			static int _value2;
-
-			Because of = () =>
+			It should_equal_template_value = () =>
 			{
-				Session.Start();
-				_value1 = Session.Current.Source.GetNext();
-
-				Session.Current.Reset();
-				_value2 = Session.Current.Source.GetNext();
+				_value.A.ShouldEqual(_template.A);
+				_value.B.ShouldEqual(_template.B);
+				_value.C.ShouldEqual(_template.C);
 			};
-
-			It should_reset_source = () => _value1.ShouldEqual(_value2);
 		}
-
 	}
 
 	// ReSharper restore InconsistentNaming

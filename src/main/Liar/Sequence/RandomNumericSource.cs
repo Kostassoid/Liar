@@ -15,23 +15,23 @@ namespace Kostassoid.Liar.Sequence
 {
 	using System;
 
-	public class RandomSequenceGenerator : SequenceGenerator
+	public class RandomNumericSource : NumericSource
 	{
-		Random random;
+		Random _random;
 
-		public RandomSequenceGenerator (int seed) : base(seed)
+		public RandomNumericSource (int seed) : base(seed)
 		{
-			random = new Random(Seed);
+			_random = new Random(Seed);
 		}
 
 		public override void Reset ()
 		{
-			random = new Random(Seed);
+			_random = new Random(Seed);
 		}
 
 		public override int GetNext ()
 		{
-			return random.Next(int.MinValue, int.MaxValue);
+			return _random.Next(int.MinValue, int.MaxValue);
 		}
 	}
 }

@@ -14,6 +14,7 @@
 namespace Kostassoid.Liar.Specs
 {
 	using Generators;
+	using Generators.Special;
 	using Machine.Specifications;
 
 	// ReSharper disable InconsistentNaming

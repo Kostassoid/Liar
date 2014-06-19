@@ -11,31 +11,33 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
+using System.Linq;
+
 namespace Kostassoid.Liar.Specs
 {
-	using System.Collections.Generic;
-	using System.Linq;
-	using Generators;
+	using System;
 	using Machine.Specifications;
+	using Generators.Base;
 
 	// ReSharper disable InconsistentNaming
 	// ReSharper disable UnusedMember.Local
-	public class SequenceSpecs
+	public class BuilderGeneratorSpecs
 	{
-		[Subject(typeof(A<>), "Sequence")]
+		[Subject(typeof(BuilderGenerator<>))]
 		[Tags("Unit")]
-		public class when_generating_sequence
+		public class when_generating_instance_using_builder
 		{
-			static IList<int> _values;
+			static Boo _value;
 
 			Because of = () =>
 			{
-				_values = A<int>.Any().Sequence.Take(10).ToList();
+				_value = A<Boo>.As(_ => new Boo
+				{
+					A = A<int>.Any().Value
+				}).Value;
 			};
 
-			It should_produce_different_values = () => _values.Distinct().Count().ShouldBeGreaterThan(1);
-
-			It should_produce_enough_values = () => _values.Count.ShouldEqual(10);
+			It should_comply_with_rules = () => _value.A.ShouldNotEqual(default(int));
 		}
 	}
 

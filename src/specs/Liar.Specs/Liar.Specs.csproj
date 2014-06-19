@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -57,8 +57,14 @@
     <Compile Include="ToolsSpecs.cs" />
     <Compile Include="SessionSpecs.cs" />
     <Compile Include="SequenceSpecs.cs" />
-    <Compile Include="BasicSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NumericSourceSpecs.cs" />
+    <Compile Include="EmptyGeneratorSpecs.cs" />
+    <Compile Include="Model\Boo.cs" />
+    <Compile Include="AnyGeneratorSpecs.cs" />
+    <Compile Include="DecoratorsSpecs.cs" />
+    <Compile Include="TemplateGeneratorSpecs.cs" />
+    <Compile Include="BuilderGeneratorSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -78,4 +84,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
 </Project>

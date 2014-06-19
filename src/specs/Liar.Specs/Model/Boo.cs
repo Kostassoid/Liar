@@ -11,24 +11,15 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar.Generators.Base
+using System;
+
+namespace Kostassoid.Liar.Specs
 {
-	using Generators;
-	using Sequence;
-
-	public class BuilderGenerator<T> : IGenerator<T>
+	public class Boo
 	{
-		Builder<T> _builder;
-
-		public BuilderGenerator (Builder<T> builder)
-		{
-			_builder = builder;
-		}
-
-		public T GetNext (NumericSource source)
-		{
-			return _builder(source);
-		}
+		public int A { get; set; }
+		public string B { get; set; }
+		public Guid C { get; set; }
 	}
 }
 

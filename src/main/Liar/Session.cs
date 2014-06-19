@@ -31,30 +31,30 @@ namespace Kostassoid.Liar
 			}
 		}
 
-		public SequenceGenerator Sequence
+		public NumericSource Source
 		{
 			get;
 			private set;
 		}
 
-		private Session(SequenceGenerator sequence)
+		private Session(NumericSource source)
 		{
-			Sequence = sequence;
+			Source = source;
 		}
 
-		public static void Start(SequenceGenerator sequence)
+		public static void Start(NumericSource source)
 		{
-			_current = new Session(sequence);
+			_current = new Session(source);
 		}
 
 		public static void Start()
 		{
-			Start(new RandomSequenceGenerator (666));
+			Start(new RandomNumericSource (666));
 		}
 
 		public void Reset()
 		{
-			Sequence.Reset();
+			Source.Reset();
 		}
 	}
 }

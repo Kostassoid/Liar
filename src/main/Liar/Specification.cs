@@ -19,7 +19,7 @@ namespace Kostassoid.Liar
 	using System;
 	using Syntax;
 
-	public class Specification<T> : ISpecification<T>
+	internal class Specification<T> : ISpecification<T>
 	{
 		public IGenerator<T> Generator { get; set; }
 
@@ -27,7 +27,7 @@ namespace Kostassoid.Liar
 		{
 			get
 			{
-				return Generator.GetNext (Session.Current.Sequence);
+				return Generator.GetNext (Session.Current.Source);
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace Kostassoid.Liar
 			{
 				for (;;)
 				{
-					yield return Generator.GetNext (Session.Current.Sequence);
+					yield return Generator.GetNext (Session.Current.Source);
 				}
 // ReSharper disable FunctionNeverReturns
 			}
@@ -47,6 +47,13 @@ namespace Kostassoid.Liar
 		public IValueSyntax<T> With(Action<T> withAction)
 		{
 			Generator = new WithDecorator<T>(Generator, withAction);
+
+			return this;
+		}
+
+		public IValueSyntax<T> Where(Predicate<T> predicate)
+		{
+			Generator = new WhereDecorator<T>(Generator, predicate);
 
 			return this;
 		}

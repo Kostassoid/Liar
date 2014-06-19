@@ -11,61 +11,49 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
+using System.Linq;
+
 namespace Kostassoid.Liar.Specs
 {
+	using System;
 	using Machine.Specifications;
+	using Generators.Base;
 
 	// ReSharper disable InconsistentNaming
 	// ReSharper disable UnusedMember.Local
-	public class SessionSpecs
+	public class DecoratorsSpecs
 	{
-		[Subject(typeof(Session))]
+		[Subject("Decorators")]
 		[Tags("Unit")]
-		public class when_getting_current_session
+		public class when_alternating_instance_with_action
 		{
-			static Session _session;
+			static Boo _value;
 
 			Because of = () =>
 			{
-				_session = Session.Current;
+				_value = A<Boo>.As(_ => new Boo
+					{
+						A = A<int>.Any().Value
+					})
+					.With(v => v.A = 13)
+					.Value;
 			};
 
-			It should_be_created_once = () => _session.ShouldBeTheSameAs(Session.Current);
-
+			It should_comply_with_rules = () => _value.A.ShouldEqual(13);
 		}
 
-		[Subject(typeof(Session))]
+		[Subject("Decorators")]
 		[Tags("Unit")]
-		public class when_starting_session
+		public class when_filtering_values_with_predicate
 		{
-			static Session _session;
+			static int[] _values;
 
 			Because of = () =>
 			{
-				_session = Session.Current;
-				Session.Start();
+				_values = A<int>.Any().Where(i => i % 2 == 0).Sequence.Take(100).ToArray();
 			};
 
-			It should_create_new_session = () => _session.ShouldNotBeTheSameAs(Session.Current);
-		}
-
-		[Subject(typeof(Session))]
-		[Tags("Unit")]
-		public class when_resetting_session
-		{
-			static int _value1;
-			static int _value2;
-
-			Because of = () =>
-			{
-				Session.Start();
-				_value1 = Session.Current.Source.GetNext();
-
-				Session.Current.Reset();
-				_value2 = Session.Current.Source.GetNext();
-			};
-
-			It should_reset_source = () => _value1.ShouldEqual(_value2);
+			It should_comply_with_rules = () => _values.ShouldEachConformTo(i => i % 2 == 0);
 		}
 
 	}

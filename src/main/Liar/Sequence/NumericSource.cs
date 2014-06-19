@@ -13,11 +13,11 @@
 
 namespace Kostassoid.Liar.Sequence
 {
-	public abstract class SequenceGenerator
+	public abstract class NumericSource
 	{
 		protected int Seed { get; private set; }
 
-		protected SequenceGenerator(int seed)
+		protected NumericSource(int seed)
 		{
 			Seed = seed;
 		}

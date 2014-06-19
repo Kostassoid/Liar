@@ -11,63 +11,45 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
+using System.Linq;
+
 namespace Kostassoid.Liar.Specs
 {
+	using System;
+	using Generators.Base;
 	using Machine.Specifications;
 
 	// ReSharper disable InconsistentNaming
 	// ReSharper disable UnusedMember.Local
-	public class SessionSpecs
+	public class EmptyGeneratorSpecs
 	{
-		[Subject(typeof(Session))]
+		[Subject(typeof(EmptyGenerator<>))]
 		[Tags("Unit")]
-		public class when_getting_current_session
+		public class when_generating_empty_value_type
 		{
-			static Session _session;
+			static int _value;
 
 			Because of = () =>
 			{
-				_session = Session.Current;
+				_value = A<int>.Empty().Value;
 			};
 
-			It should_be_created_once = () => _session.ShouldBeTheSameAs(Session.Current);
-
+			It should_be_default = () => _value.ShouldEqual(default(int));
 		}
 
-		[Subject(typeof(Session))]
+		[Subject(typeof(EmptyGenerator<>))]
 		[Tags("Unit")]
-		public class when_starting_session
+		public class when_generating_empty_ref_type
 		{
-			static Session _session;
+			static string _value;
 
 			Because of = () =>
 			{
-				_session = Session.Current;
-				Session.Start();
+				_value = A<string>.Empty().Value;
 			};
 
-			It should_create_new_session = () => _session.ShouldNotBeTheSameAs(Session.Current);
+			It should_be_null = () => _value.ShouldBeNull();
 		}
-
-		[Subject(typeof(Session))]
-		[Tags("Unit")]
-		public class when_resetting_session
-		{
-			static int _value1;
-			static int _value2;
-
-			Because of = () =>
-			{
-				Session.Start();
-				_value1 = Session.Current.Source.GetNext();
-
-				Session.Current.Reset();
-				_value2 = Session.Current.Source.GetNext();
-			};
-
-			It should_reset_source = () => _value1.ShouldEqual(_value2);
-		}
-
 	}
 
 	// ReSharper restore InconsistentNaming

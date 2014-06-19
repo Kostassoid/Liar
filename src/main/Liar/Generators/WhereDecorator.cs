@@ -11,24 +11,32 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar.Generators.Base
+namespace Kostassoid.Liar.Generators
 {
-	using Generators;
+	using System;
 	using Sequence;
 
-	public class BuilderGenerator<T> : IGenerator<T>
+	public class WhereDecorator<T> : IGenerator<T>
 	{
-		Builder<T> _builder;
+		readonly IGenerator<T> _generator;
+		readonly Predicate<T> _predicate;
 
-		public BuilderGenerator (Builder<T> builder)
+		public WhereDecorator(IGenerator<T> generator, Predicate<T> predicate)
 		{
-			_builder = builder;
+			_generator = generator;
+			_predicate = predicate;
 		}
 
-		public T GetNext (NumericSource source)
+		public T GetNext(NumericSource sequence)
 		{
-			return _builder(source);
+			while (true)
+			{
+				var value = _generator.GetNext (sequence);
+				if (_predicate (value))
+				{
+					return value;
+				}
+			}
 		}
 	}
 }
-

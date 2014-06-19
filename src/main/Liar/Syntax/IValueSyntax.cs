@@ -22,6 +22,7 @@ namespace Kostassoid.Liar.Syntax
 		IEnumerable<T> Sequence { get; }
 
 		IValueSyntax<T> With(Action<T> withAction);
+		IValueSyntax<T> Where(Predicate<T> predicate);
 	}
 }
 
