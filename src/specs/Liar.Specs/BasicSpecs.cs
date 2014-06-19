@@ -14,9 +14,6 @@
 namespace Kostassoid.Liar.Specs
 {
 	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using Generators;
 	using Machine.Specifications;
 
 	// ReSharper disable InconsistentNaming
@@ -25,27 +22,36 @@ namespace Kostassoid.Liar.Specs
 	{
 		[Subject(typeof(A<>), "Basic")]
 		[Tags("Unit")]
-		public class when_generating_default_int
+		public class when_generating_default_value
 		{
 			static int _value;
 
 			Because of = () =>
 			{
 				_value = A<int>.Empty().Value;
-				/*
-				 * _v = A<int>.Any().Value;
-				 * _v = A<int>.Default().Value;
-				 * _v = A<int>.Any().Between(10, 300).Value;
-				 * _v = A<int>.Like(66).Value;
-				 * _v = A<int>.Any().Between(5, 55).Sequence;
-				 * _v = A<int>.As(i => i).Value;
-				 * _v = A<int>.As().Pincode().Value;
-				 * _v = A<int>.Any().Over(() => Session.Generator).Value;
-				 */
 			};
 
 			It should_be_deafult = () => _value.ShouldEqual(default(int));
 
+		}
+
+		[Subject(typeof(A<>), "Basic")]
+		[Tags("Unit")]
+		public class when_generating_any_value
+		{
+			static int _value1;
+			static int _value2;
+			static int _value3;
+
+			Because of = () =>
+			{
+				_value1 = A<int>.Any().Value;
+				_value2 = A<int>.Any().Value;
+				_value3 = A<int>.Any().Value;
+			};
+
+			It should_generate_different_values =
+				() => ((_value1 != _value2) || (_value1 != _value3)).ShouldBeTrue();
 		}
 
 		[Subject(typeof(A<>), "Basic")]
@@ -82,6 +88,9 @@ namespace Kostassoid.Liar.Specs
 				_value = A<Boo>.Like(_template).Value;
 			};
 
+			It should_not_be_the_same_as_template = () =>
+				_value.ShouldNotBeTheSameAs(_template);
+
 			It should_equal_template_value = () =>
 			{
 				_value.A.ShouldEqual(_template.A);
@@ -92,39 +101,39 @@ namespace Kostassoid.Liar.Specs
 
 		[Subject(typeof(A<>), "Basic")]
 		[Tags("Unit")]
-		public class when_generating_ints_using_generator
-		{
-			static int _value;
-
-			Because of = () =>
-			{
-				_value = A<int>.Any().PinCode().Value;
-			};
-
-			It should_comply_with_rules = () =>
-			{
-				_value.ShouldBeGreaterThanOrEqualTo(1000);
-				_value.ShouldBeLessThan(10000);
-			};
-
-		}
-
-		[Subject(typeof(A<>), "Basic")]
-		[Tags("Unit")]
-		public class when_generating_ints_using_rules
+		public class when_generating_instance_using_builder
 		{
 			static Boo _value;
 
 			Because of = () =>
 			{
 				_value = A<Boo>.As(_ => new Boo
-					{
-						A = A<int>.Any().Value
-					})
+				{
+					A = A<int>.Any().Value
+				})
 					.Value;
 			};
 
 			It should_comply_with_rules = () => _value.A.ShouldNotEqual(default(int));
+		}
+
+		[Subject(typeof(A<>), "Basic")]
+		[Tags("Unit")]
+		public class when_alternating_instance_with_action
+		{
+			static Boo _value;
+
+			Because of = () =>
+			{
+				_value = A<Boo>.As(_ => new Boo
+				{
+					A = A<int>.Any().Value
+				})
+				.With(v => v.A = 13)
+				.Value;
+			};
+
+			It should_comply_with_rules = () => _value.A.ShouldEqual(13);
 		}
 
 		public class Boo

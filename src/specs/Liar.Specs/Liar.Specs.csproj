@@ -53,6 +53,9 @@
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="SpecialGeneratorsSpecs.cs" />
+    <Compile Include="ToolsSpecs.cs" />
+    <Compile Include="SessionSpecs.cs" />
     <Compile Include="SequenceSpecs.cs" />
     <Compile Include="BasicSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

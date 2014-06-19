@@ -44,8 +44,6 @@
     </Compile>
     <Compile Include="Builder.cs" />
     <Compile Include="Generators\PinCodeGenerator.cs" />
-    <Compile Include="IGeneratorPicker.cs" />
-    <Compile Include="IValuePicker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Tools\ArrayExtensions.cs" />
@@ -68,6 +66,7 @@
     <Compile Include="Generators\Base\TemplateGenerator.cs" />
     <Compile Include="Generators\Base\EmptyGenerator.cs" />
     <Compile Include="Generators\Base\BuilderGenerator.cs" />
+    <Compile Include="Generators\WithDecorator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -77,9 +76,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Sequence\" />
-    <Folder Include="Syntax\" />
-    <Folder Include="Generators\Base\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

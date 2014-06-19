@@ -13,6 +13,8 @@
 
 namespace Kostassoid.Liar.Generators
 {
+	using Sequence;
+
 	public interface IGenerator
 	{
 	}

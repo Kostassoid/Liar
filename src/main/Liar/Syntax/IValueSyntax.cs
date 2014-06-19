@@ -11,15 +11,17 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-using System;
-using System.Collections.Generic;
-
-namespace Kostassoid.Liar
+namespace Kostassoid.Liar.Syntax
 {
-	public interface IValueSyntax<T>
+	using System;
+	using System.Collections.Generic;
+
+	public interface IValueSyntax<out T>
 	{
 		T Value { get; }
 		IEnumerable<T> Sequence { get; }
+
+		IValueSyntax<T> With(Action<T> withAction);
 	}
 }
 

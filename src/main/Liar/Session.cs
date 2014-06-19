@@ -13,7 +13,7 @@
 
 namespace Kostassoid.Liar
 {
-	using System;
+	using Sequence;
 
 	public class Session
 	{
@@ -25,7 +25,7 @@ namespace Kostassoid.Liar
 			{
 				if (_current == null)
 				{
-					_current = new Session(new RandomSequenceGenerator (666));
+					Start();
 				}
 				return _current;
 			}
@@ -42,12 +42,12 @@ namespace Kostassoid.Liar
 			Sequence = sequence;
 		}
 
-		public void Start(SequenceGenerator sequence)
+		public static void Start(SequenceGenerator sequence)
 		{
 			_current = new Session(sequence);
 		}
 
-		public void Start()
+		public static void Start()
 		{
 			Start(new RandomSequenceGenerator (666));
 		}

@@ -11,17 +11,34 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-namespace Kostassoid.Liar.Generators.Base
+namespace Kostassoid.Liar.Specs
 {
 	using Generators;
-	using Sequence;
+	using Machine.Specifications;
 
-	public class EmptyGenerator<T> : IGenerator<T>
+	// ReSharper disable InconsistentNaming
+	// ReSharper disable UnusedMember.Local
+	public class SpecialGeneratorsSpecs
 	{
-		public T GetNext (SequenceGenerator sequence)
+		[Subject(typeof(PinCodeGenerator))]
+		[Tags("Unit")]
+		public class when_generating_pincode
 		{
-			return default(T);
+			static int _value;
+
+			Because of = () =>
+			{
+				_value = A<int>.Any().PinCode().Value;
+			};
+
+			It should_comply_with_rules = () =>
+			{
+				_value.ShouldBeGreaterThanOrEqualTo(1000);
+				_value.ShouldBeLessThan(10000);
+			};
 		}
 	}
-}
 
+	// ReSharper restore InconsistentNaming
+	// ReSharper restore UnusedMember.Local
+}

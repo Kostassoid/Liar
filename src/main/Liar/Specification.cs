@@ -11,12 +11,14 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-using System;
 using Kostassoid.Liar.Generators;
 using System.Collections.Generic;
 
 namespace Kostassoid.Liar
 {
+	using System;
+	using Syntax;
+
 	public class Specification<T> : ISpecification<T>
 	{
 		public IGenerator<T> Generator { get; set; }
@@ -37,7 +39,16 @@ namespace Kostassoid.Liar
 				{
 					yield return Generator.GetNext (Session.Current.Sequence);
 				}
+// ReSharper disable FunctionNeverReturns
 			}
+// ReSharper restore FunctionNeverReturns
+		}
+
+		public IValueSyntax<T> With(Action<T> withAction)
+		{
+			Generator = new WithDecorator<T>(Generator, withAction);
+
+			return this;
 		}
 
 		public Specification (IGenerator<T> generator)

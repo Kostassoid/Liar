@@ -16,6 +16,8 @@ namespace Kostassoid.Liar
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using Generators.Base;
+	using Syntax;
 
 	public class A<T>
 	{
