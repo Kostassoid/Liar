@@ -10,6 +10,7 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
+using System.Collections.Generic;
 
 namespace Kostassoid.Liar.Generators.Base
 {
@@ -19,62 +20,45 @@ namespace Kostassoid.Liar.Generators.Base
 
 	public class AnyGenerator<T> : IGenerator<T>
 	{
+		static IDictionary<Type, Builder<object>> _builders = new Dictionary<Type, Builder<object>> ();
+
+		static AnyGenerator()
+		{
+			_builders [typeof(sbyte)] = s => (sbyte)s.GetNext ();
+			_builders [typeof(byte)] = s => (byte)s.GetNext ();
+			_builders [typeof(short)] = s => (short)s.GetNext ();
+			_builders [typeof(ushort)] = s => (ushort)s.GetNext ();
+			_builders [typeof(int)] = s => (int)s.GetNext ();
+			_builders [typeof(uint)] = s => (uint)s.GetNext ();
+			_builders [typeof(long)] = s => ((long)s.GetNext() << 32) + (long)s.GetNext();
+			_builders [typeof(ulong)] = s => ((ulong)s.GetNext() << 32) + (ulong)s.GetNext();
+			_builders [typeof(float)] = s => BitConverter.ToSingle(BitConverter.GetBytes(s.GetNext()), 0);
+			_builders [typeof(double)] = s => BitConverter.Int64BitsToDouble(((long)s.GetNext() << 32) + (long)s.GetNext());
+			_builders [typeof(decimal)] = s => BuildDecimal(s);
+			_builders [typeof(bool)] = s => s.GetNext() % 2 == 0;
+		}
+
 		public T GetNext (NumericSource source)
 		{
 			return (T)BuildValue (source);
 		}
 
-		// TODO: refactor
-		object BuildValue(NumericSource source)
+		static object BuildValue(NumericSource source)
 		{
 			var t = typeof(T);
 
-			if (t == typeof(sbyte))
+			Builder<object> builder;
+			if (!_builders.TryGetValue (t, out builder))
 			{
-				return (sbyte)source.GetNext();
+				throw new NotImplementedException (string.Format ("No value builder found for [{0}].", t.Name));
 			}
 
-			if (t == typeof(byte))
-			{
-				return (byte)source.GetNext();
-			}
+			return builder (source);
+		}
 
-			if (t == typeof(short))
-			{
-				return (short)source.GetNext();
-			}
-
-			if (t == typeof(ushort))
-			{
-				return (ushort)source.GetNext();
-			}
-
-			if (t == typeof(int))
-			{
-				return (int)source.GetNext();
-			}
-
-			if (t == typeof(uint))
-			{
-				return (uint)source.GetNext();
-			}
-
-			if (t == typeof(long))
-			{
-				return ((long)source.GetNext() << 32) + source.GetNext();
-			}
-
-			if (t == typeof(ulong))
-			{
-				return ((ulong)source.GetNext() << 32) + (ulong)source.GetNext();
-			}
-
-			if (t == typeof(bool))
-			{
-				return (bool)(source.GetNext() % 2 == 0);
-			}
-
-			throw new NotImplementedException (string.Format ("No value builder found for [{0}].", t.Name));
+		static decimal BuildDecimal(NumericSource source)
+		{
+			return 1;
 		}
 	}
 }

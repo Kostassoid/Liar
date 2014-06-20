@@ -24,109 +24,176 @@ namespace Kostassoid.Liar.Specs
 	// ReSharper disable UnusedMember.Local
 	public class AnyGeneratorSpecs
 	{
+		[Behaviors]
+		public class NumericGeneratorBehavior<T>
+			where T : struct, 
+		IComparable, 
+		IComparable<T>, 
+		IConvertible, 
+		IEquatable<T>, 
+		IFormattable
+		{
+			protected static T[] Values;
+			protected static T Min;
+			protected static T Max;
+
+			It should_generate_different_values =
+				() => Values.Distinct ().Count ().ShouldBeGreaterThan (10);
+
+			It should_generate_spread_values = () =>
+			{
+				var margin = (T)(((dynamic)Max / 4 - (dynamic)Min / 4));
+				/*
+				Console.WriteLine("Margin: {0}, comparing {1} with {2} = {3}",
+					margin, Values.Min(), (T)((dynamic)Min + margin), Values.Min().CompareTo((T)((dynamic)Min + margin)));
+				*/
+				Values.Min().CompareTo((T)((dynamic)Min + margin)).ShouldBeLessThan(0);
+				Values.Max().CompareTo((T)((dynamic)Max - margin)).ShouldBeGreaterThan(0);
+			};
+		}
+
 		[Subject(typeof(AnyGenerator<>))]
 		[Tags("Unit")]
 		public class when_generating_any_sbyte
 		{
-			static sbyte[] _values;
+			protected static sbyte[] Values;
+			protected static sbyte Min;
+			protected static sbyte Max;
 
 			Because of = () =>
 			{
-				_values = A<sbyte>.Any().Sequence.Take(100).ToArray();
+				Values = A<sbyte>.Any().Sequence.Take(100).ToArray();
+				Min = sbyte.MinValue;
+				Max = sbyte.MaxValue;
 			};
 
-			It should_generate_different_values =
-				() => _values.Distinct ().Count ().ShouldBeGreaterThan (10);
-
-			It should_generate_spread_values = () =>
-			{
-				_values.Min ().ShouldBeLessThan (sbyte.MinValue / 2);
-				_values.Max ().ShouldBeGreaterThan (sbyte.MaxValue / 2);
-			};
+			Behaves_like<NumericGeneratorBehavior<sbyte>> numeric_generator;
 		}
 
 		[Subject(typeof(AnyGenerator<>))]
 		[Tags("Unit")]
 		public class when_generating_any_byte
 		{
-			static byte[] _values;
+			protected static byte[] Values;
+			protected static byte Min;
+			protected static byte Max;
 
 			Because of = () =>
 			{
-				_values = A<byte>.Any().Sequence.Take(100).ToArray();
+				Values = A<byte>.Any().Sequence.Take(100).ToArray();
+				Min = byte.MinValue;
+				Max = byte.MaxValue;
 			};
 
-			It should_generate_different_values =
-				() => _values.Distinct ().Count ().ShouldBeGreaterThan (10);
-
-			It should_generate_spread_values = () =>
-			{
-				_values.Min ().ShouldBeLessThan (byte.MaxValue / 4);
-				_values.Max ().ShouldBeGreaterThan (byte.MaxValue / 4 * 3);
-			};
+			Behaves_like<NumericGeneratorBehavior<byte>> numeric_generator;
 		}
 
 		[Subject(typeof(AnyGenerator<>))]
 		[Tags("Unit")]
 		public class when_generating_any_short
 		{
-			static short[] _values;
+			protected static short[] Values;
+			protected static short Min;
+			protected static short Max;
 
 			Because of = () =>
 			{
-				_values = A<short>.Any().Sequence.Take(100).ToArray();
+				Values = A<short>.Any().Sequence.Take(100).ToArray();
+				Min = short.MinValue;
+				Max = short.MaxValue;
 			};
 
-			It should_generate_different_values =
-				() => _values.Distinct ().Count ().ShouldBeGreaterThan (10);
+			Behaves_like<NumericGeneratorBehavior<short>> numeric_generator;
+		}
 
-			It should_generate_spread_values = () =>
+		[Subject(typeof(AnyGenerator<>))]
+		[Tags("Unit")]
+		public class when_generating_any_ushort
+		{
+			protected static ushort[] Values;
+			protected static ushort Min;
+			protected static ushort Max;
+
+			Because of = () =>
 			{
-				_values.Min ().ShouldBeLessThan (short.MinValue / 2);
-				_values.Max ().ShouldBeGreaterThan (short.MaxValue / 2);
+				Values = A<ushort>.Any().Sequence.Take(100).ToArray();
+				Min = ushort.MinValue;
+				Max = ushort.MaxValue;
 			};
+
+			Behaves_like<NumericGeneratorBehavior<ushort>> numeric_generator;
 		}
 
 		[Subject(typeof(AnyGenerator<>))]
 		[Tags("Unit")]
 		public class when_generating_any_int
 		{
-			static int[] _values;
+			protected static int[] Values;
+			protected static int Min;
+			protected static int Max;
 
 			Because of = () =>
 			{
-				_values = A<int>.Any().Sequence.Take(100).ToArray();
+				Values = A<int>.Any().Sequence.Take(100).ToArray();
+				Min = int.MinValue;
+				Max = int.MaxValue;
 			};
 
-			It should_generate_different_values =
-				() => _values.Distinct ().Count ().ShouldBeGreaterThan (10);
+			Behaves_like<NumericGeneratorBehavior<int>> numeric_generator;
+		}
 
-			It should_generate_spread_values = () =>
+		[Subject(typeof(AnyGenerator<>))]
+		[Tags("Unit")]
+		public class when_generating_any_uint
+		{
+			protected static uint[] Values;
+			protected static uint Min;
+			protected static uint Max;
+
+			Because of = () =>
 			{
-				_values.Min ().ShouldBeLessThan (int.MinValue / 2);
-				_values.Max ().ShouldBeGreaterThan (int.MaxValue / 2);
+				Values = A<uint>.Any().Sequence.Take(100).ToArray();
+				Min = uint.MinValue;
+				Max = uint.MaxValue;
 			};
+
+			Behaves_like<NumericGeneratorBehavior<uint>> numeric_generator;
 		}
 
 		[Subject(typeof(AnyGenerator<>))]
 		[Tags("Unit")]
 		public class when_generating_any_long
 		{
-			static long[] _values;
+			protected static long[] Values;
+			protected static long Min;
+			protected static long Max;
 
 			Because of = () =>
 			{
-				_values = A<long>.Any().Sequence.Take(100).ToArray();
+				Values = A<long>.Any().Sequence.Take(100).ToArray();
+				Min = long.MinValue;
+				Max = long.MaxValue;
 			};
 
-			It should_generate_different_values =
-				() => _values.Distinct ().Count ().ShouldBeGreaterThan (10);
+			Behaves_like<NumericGeneratorBehavior<long>> numeric_generator;
+		}
 
-			It should_generate_spread_values = () =>
+		[Subject(typeof(AnyGenerator<>))]
+		[Tags("Unit")]
+		public class when_generating_any_ulong
+		{
+			protected static ulong[] Values;
+			protected static ulong Min;
+			protected static ulong Max;
+
+			Because of = () =>
 			{
-				_values.Min ().ShouldBeLessThan (long.MinValue / 2);
-				_values.Max ().ShouldBeGreaterThan (long.MaxValue / 2);
+				Values = A<ulong>.Any().Sequence.Take(100).ToArray();
+				Min = ulong.MinValue;
+				Max = ulong.MaxValue;
 			};
+
+			Behaves_like<NumericGeneratorBehavior<ulong>> numeric_generator;
 		}
 	}
 
