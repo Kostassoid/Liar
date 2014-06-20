@@ -67,7 +67,7 @@ namespace Kostassoid.Liar.Specs
 		}
 
 		[Behaviors]
-		public class correct_numeric_source
+		public class NumericSourceBehavior
 		{
 			protected static Func<int, NumericSource> SourceBuilder;
 
@@ -129,7 +129,9 @@ namespace Kostassoid.Liar.Specs
 				SourceBuilder = seed => new SequentialNumericSource(seed);
 			};
 
-			Behaves_like<correct_numeric_source> _;
+			#pragma warning disable 0169
+			Behaves_like<NumericSourceBehavior> correct_numeric_source;
+			#pragma warning restore 0169
 		}
 
 		[Subject(typeof(RandomNumericSource))]
@@ -143,7 +145,9 @@ namespace Kostassoid.Liar.Specs
 				SourceBuilder = seed => new RandomNumericSource(seed);
 			};
 
-			Behaves_like<correct_numeric_source> _;
+			#pragma warning disable 0169
+			Behaves_like<NumericSourceBehavior> correct_numeric_source;
+			#pragma warning restore 0169
 		}
 	}
 
