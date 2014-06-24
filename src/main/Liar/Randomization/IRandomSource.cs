@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Kostassoid.Liar
+namespace Kostassoid.Liar.Randomization
 {
 	public interface IRandomSource
 	{

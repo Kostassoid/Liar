@@ -65,6 +65,7 @@
     <Compile Include="TemplateGeneratorSpecs.cs" />
     <Compile Include="BuilderGeneratorSpecs.cs" />
     <Compile Include="RandomSourceSpecs.cs" />
+    <Compile Include="BuildersSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

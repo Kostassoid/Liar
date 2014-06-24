@@ -66,9 +66,9 @@
     <Compile Include="Generators\WithDecorator.cs" />
     <Compile Include="Generators\Special\PinCodeGenerator.cs" />
     <Compile Include="Generators\WhereDecorator.cs" />
-    <Compile Include="Sequence\IRandomSource.cs" />
-    <Compile Include="Sequence\DefaultRandomSource.cs" />
     <Compile Include="Generators\Builders.cs" />
+    <Compile Include="Randomization\DefaultRandomSource.cs" />
+    <Compile Include="Randomization\IRandomSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

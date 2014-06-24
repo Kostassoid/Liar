@@ -14,7 +14,7 @@
 namespace Kostassoid.Liar.Generators.Base
 {
 	using Generators;
-	using Sequence;
+	using Randomization;
 
 	public class EmptyGenerator<T> : IGenerator<T>
 	{

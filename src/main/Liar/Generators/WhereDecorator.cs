@@ -14,7 +14,7 @@
 namespace Kostassoid.Liar.Generators
 {
 	using System;
-	using Sequence;
+	using Randomization;
 
 	public class WhereDecorator<T> : IGenerator<T>
 	{

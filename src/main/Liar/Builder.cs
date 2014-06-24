@@ -13,7 +13,7 @@
 
 namespace Kostassoid.Liar
 {
-	using Sequence;
+	using Randomization;
 
 	public delegate T Builder<out T>(IRandomSource source);
 }

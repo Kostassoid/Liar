@@ -16,7 +16,7 @@ using System;
 namespace Kostassoid.Liar.Generators.Special
 {
 	using Base;
-	using Sequence;
+	using Randomization;
 	using Syntax;
 
 	internal static class PinCodeGenerator

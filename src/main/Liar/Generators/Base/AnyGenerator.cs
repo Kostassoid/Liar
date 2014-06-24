@@ -18,45 +18,13 @@ namespace Kostassoid.Liar.Generators.Base
 {
 	using System;
 	using Generators;
-	using Sequence;
+	using Randomization;
 
 	public class AnyGenerator<T> : IGenerator<T>
 	{
-		static IDictionary<Type, Builder<object>> _builders = new Dictionary<Type, Builder<object>> ();
-
-		static AnyGenerator()
-		{
-			_builders [typeof(sbyte)] = s => (sbyte)Builders.BuildByte (s);
-			_builders [typeof(byte)] = s => (byte)Builders.BuildByte (s);
-			_builders [typeof(short)] = s => (short)Builders.BuildShort(s);
-			_builders [typeof(ushort)] = s => (ushort)Builders.BuildShort(s);
-			_builders [typeof(int)] = s => (int)Builders.BuildInt (s);
-			_builders [typeof(uint)] = s => (uint)Builders.BuildInt (s);
-			_builders [typeof(long)] = s => (long)Builders.BuildLong (s);
-			_builders [typeof(ulong)] = s => (ulong)Builders.BuildLong (s);
-			_builders [typeof(float)] = s => Builders.BuildFloat(s);
-			_builders [typeof(double)] = s => Builders.BuildDouble(s);
-			_builders [typeof(decimal)] = s => Builders.BuildDecimal(s);
-			_builders [typeof(bool)] = s => Builders.BuildBoolean (s);
-			_builders [typeof(Guid)] = s => Builders.BuildGuid(s);
-		}
-
 		public T GetNext (IRandomSource source)
 		{
-			return (T)BuildValue (source);
-		}
-
-		static object BuildValue(IRandomSource source)
-		{
-			var t = typeof(T);
-
-			Builder<object> builder;
-			if (!_builders.TryGetValue (t, out builder))
-			{
-				throw new NotImplementedException (string.Format ("No value builder found for [{0}].", t.Name));
-			}
-
-			return builder (source);
+			return Builders.Build<T> (source);
 		}
 	}
 }

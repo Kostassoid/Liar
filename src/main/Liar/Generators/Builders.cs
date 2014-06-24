@@ -18,10 +18,54 @@ namespace Kostassoid.Liar.Generators
 {
 	using System;
 	using Generators;
-	using Sequence;
+	using Randomization;
 
 	public static class Builders
 	{
+		static IDictionary<Type, Builder<object>> _builders = new Dictionary<Type, Builder<object>> ();
+
+		static Builders()
+		{
+			Reset ();
+		}
+
+		public static void Reset()
+		{
+			_builders.Clear();
+			_builders [typeof(sbyte)] = s => (sbyte)BuildByte (s);
+			_builders [typeof(byte)] = s => (byte)BuildByte (s);
+			_builders [typeof(short)] = s => (short)BuildShort(s);
+			_builders [typeof(ushort)] = s => (ushort)BuildShort(s);
+			_builders [typeof(int)] = s => (int)BuildInt (s);
+			_builders [typeof(uint)] = s => (uint)BuildInt (s);
+			_builders [typeof(long)] = s => (long)BuildLong (s);
+			_builders [typeof(ulong)] = s => (ulong)BuildLong (s);
+			_builders [typeof(float)] = s => BuildFloat(s);
+			_builders [typeof(double)] = s => BuildDouble(s);
+			_builders [typeof(decimal)] = s => BuildDecimal(s);
+			_builders [typeof(bool)] = s => BuildBoolean (s);
+			_builders [typeof(Guid)] = s => BuildGuid(s);
+		}
+
+		public static void Register<T>(Builder<T> builder)
+		{
+			// TODO: not nice
+			_builders [typeof(T)] = s => builder(s);
+		}
+
+		public static T Build<T>(IRandomSource source)
+		{
+			var t = typeof(T);
+
+			Builder<object> builder;
+			if (!_builders.TryGetValue (t, out builder))
+			{
+				throw new NotSupportedException (string.Format ("No value builder found for [{0}].", t.Name));
+			}
+
+			return (T) builder (source);
+		}
+
 		public static bool BuildBoolean(IRandomSource source)
 		{
 			return source.Next (1)[0] % 2 == 0;

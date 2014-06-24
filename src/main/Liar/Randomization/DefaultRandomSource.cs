@@ -12,7 +12,7 @@
 // specific language governing permissions and limitations under the License.
 using System.Collections.Generic;
 
-namespace Kostassoid.Liar.Sequence
+namespace Kostassoid.Liar.Randomization
 {
 	using System;
 
