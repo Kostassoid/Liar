@@ -53,19 +53,19 @@ namespace Kostassoid.Liar.Specs
 		[Tags("Unit")]
 		public class when_resetting_session
 		{
-			static int _value1;
-			static int _value2;
+			static byte[] _seq1;
+			static byte[] _seq2;
 
 			Because of = () =>
 			{
 				Session.Start();
-				_value1 = Session.Current.Source.GetNext();
+				_seq1 = Session.Current.Source.Next(10);
 
 				Session.Current.Reset();
-				_value2 = Session.Current.Source.GetNext();
+				_seq2 = Session.Current.Source.Next(10);
 			};
 
-			It should_reset_source = () => _value1.ShouldEqual(_value2);
+			It should_reset_source = () => _seq1.ShouldEqual(_seq2);
 		}
 
 	}

@@ -27,7 +27,7 @@ namespace Kostassoid.Liar.Generators
 			_withAction = withAction;
 		}
 
-		public T GetNext(NumericSource sequence)
+		public T GetNext(IRandomSource sequence)
 		{
 			var value = _generator.GetNext(sequence);
 			_withAction(value);

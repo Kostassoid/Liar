@@ -64,11 +64,11 @@
     <Compile Include="Generators\Base\EmptyGenerator.cs" />
     <Compile Include="Generators\Base\BuilderGenerator.cs" />
     <Compile Include="Generators\WithDecorator.cs" />
-    <Compile Include="Sequence\NumericSource.cs" />
-    <Compile Include="Sequence\RandomNumericSource.cs" />
-    <Compile Include="Sequence\SequentialNumericSource.cs" />
     <Compile Include="Generators\Special\PinCodeGenerator.cs" />
     <Compile Include="Generators\WhereDecorator.cs" />
+    <Compile Include="Sequence\IRandomSource.cs" />
+    <Compile Include="Sequence\DefaultRandomSource.cs" />
+    <Compile Include="Generators\Builders.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -18,7 +18,7 @@ namespace Kostassoid.Liar.Generators.Base
 
 	public class EmptyGenerator<T> : IGenerator<T>
 	{
-		public T GetNext (NumericSource source)
+		public T GetNext (IRandomSource source)
 		{
 			return default(T);
 		}

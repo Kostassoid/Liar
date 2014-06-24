@@ -27,7 +27,7 @@ namespace Kostassoid.Liar.Generators
 			_predicate = predicate;
 		}
 
-		public T GetNext(NumericSource sequence)
+		public T GetNext(IRandomSource sequence)
 		{
 			while (true)
 			{

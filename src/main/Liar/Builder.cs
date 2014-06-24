@@ -15,5 +15,5 @@ namespace Kostassoid.Liar
 {
 	using Sequence;
 
-	public delegate T Builder<out T>(NumericSource sequence);
+	public delegate T Builder<out T>(IRandomSource source);
 }

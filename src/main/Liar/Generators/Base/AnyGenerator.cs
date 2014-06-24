@@ -26,27 +26,27 @@ namespace Kostassoid.Liar.Generators.Base
 
 		static AnyGenerator()
 		{
-			_builders [typeof(sbyte)] = s => (sbyte)s.GetNext ();
-			_builders [typeof(byte)] = s => (byte)s.GetNext ();
-			_builders [typeof(short)] = s => (short)s.GetNext ();
-			_builders [typeof(ushort)] = s => (ushort)s.GetNext ();
-			_builders [typeof(int)] = s => (int)s.GetNext ();
-			_builders [typeof(uint)] = s => (uint)s.GetNext ();
-			_builders [typeof(long)] = s => ((long)s.GetNext() << 32) + (long)s.GetNext();
-			_builders [typeof(ulong)] = s => ((ulong)s.GetNext() << 32) + (ulong)s.GetNext();
-			_builders [typeof(float)] = s => BuildFloat(s);
-			_builders [typeof(double)] = s => BuildDouble(s);
-			_builders [typeof(decimal)] = s => BuildDecimal(s);
-			_builders [typeof(bool)] = s => s.GetNext() % 2 == 0;
-			_builders [typeof(Guid)] = s => BuildGuid(s);
+			_builders [typeof(sbyte)] = s => (sbyte)Builders.BuildByte (s);
+			_builders [typeof(byte)] = s => (byte)Builders.BuildByte (s);
+			_builders [typeof(short)] = s => (short)Builders.BuildShort(s);
+			_builders [typeof(ushort)] = s => (ushort)Builders.BuildShort(s);
+			_builders [typeof(int)] = s => (int)Builders.BuildInt (s);
+			_builders [typeof(uint)] = s => (uint)Builders.BuildInt (s);
+			_builders [typeof(long)] = s => (long)Builders.BuildLong (s);
+			_builders [typeof(ulong)] = s => (ulong)Builders.BuildLong (s);
+			_builders [typeof(float)] = s => Builders.BuildFloat(s);
+			_builders [typeof(double)] = s => Builders.BuildDouble(s);
+			_builders [typeof(decimal)] = s => Builders.BuildDecimal(s);
+			_builders [typeof(bool)] = s => Builders.BuildBoolean (s);
+			_builders [typeof(Guid)] = s => Builders.BuildGuid(s);
 		}
 
-		public T GetNext (NumericSource source)
+		public T GetNext (IRandomSource source)
 		{
 			return (T)BuildValue (source);
 		}
 
-		static object BuildValue(NumericSource source)
+		static object BuildValue(IRandomSource source)
 		{
 			var t = typeof(T);
 
@@ -57,58 +57,6 @@ namespace Kostassoid.Liar.Generators.Base
 			}
 
 			return builder (source);
-		}
-
-		static int NextUniformInt(NumericSource source)
-		{
-			unchecked
-			{
-				int firstBits = source.GetNext() << 28;
-				int lastBits = source.GetNext();
-				return firstBits | lastBits;
-			}
-		}
-
-		static decimal BuildDecimal(NumericSource source)
-		{
-			byte scale = (byte)(Math.Abs(source.GetNext()) % 29);
-			bool sign = source.GetNext() % 2 == 0;
-			return new decimal(
-				NextUniformInt(source), 
-				NextUniformInt(source), 
-				NextUniformInt(source), 
-				sign,
-				scale);
-		}
-
-		static float BuildFloat(NumericSource source)
-		{
-			float value;
-			do
-			{
-				value = BitConverter.ToSingle (BitConverter.GetBytes (source.GetNext ()), 0);
-			}
-			while(float.IsNaN (value) || float.IsInfinity (value));
-
-			return value;
-		}
-
-		static double BuildDouble(NumericSource source)
-		{
-			double value;
-			do
-			{
-				value = BitConverter.Int64BitsToDouble(((long)NextUniformInt(source) << 32) + (long)NextUniformInt(source));
-			}
-			while(double.IsNaN (value) || double.IsInfinity (value));
-
-			return value;
-		}
-
-		static Guid BuildGuid(NumericSource source)
-		{
-			var bytes = Enumerable.Range (1, 16).Select (_ => (byte)source.GetNext ()).ToArray ();
-			return new Guid(bytes);
 		}
 	}
 }

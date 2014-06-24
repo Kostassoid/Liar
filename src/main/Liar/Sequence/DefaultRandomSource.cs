@@ -10,21 +10,34 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
+using System.Collections.Generic;
 
 namespace Kostassoid.Liar.Sequence
 {
-	public abstract class NumericSource
-	{
-		protected int Seed { get; private set; }
+	using System;
 
-		protected NumericSource(int seed)
+	public class DefaultRandomSource : IRandomSource
+	{
+		Random _random;
+		readonly int _seed;
+
+		public DefaultRandomSource (int seed)
 		{
-			Seed = seed;
+			_seed = seed;
+			_random = new Random(_seed);
 		}
 
-		public abstract void Reset();
+		public void Reset ()
+		{
+			_random = new Random(_seed);
+		}
 
-		public abstract int GetNext();
+		public byte[] Next(int count)
+		{
+			var buffer = new byte[count];
+			_random.NextBytes (buffer);
+			return buffer;
+		}
 	}
 }
 

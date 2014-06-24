@@ -58,13 +58,13 @@
     <Compile Include="SessionSpecs.cs" />
     <Compile Include="SequenceSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NumericSourceSpecs.cs" />
     <Compile Include="EmptyGeneratorSpecs.cs" />
     <Compile Include="Model\Boo.cs" />
     <Compile Include="AnyGeneratorSpecs.cs" />
     <Compile Include="DecoratorsSpecs.cs" />
     <Compile Include="TemplateGeneratorSpecs.cs" />
     <Compile Include="BuilderGeneratorSpecs.cs" />
+    <Compile Include="RandomSourceSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

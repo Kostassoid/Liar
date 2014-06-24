@@ -26,7 +26,7 @@ namespace Kostassoid.Liar.Generators.Base
 			_template = template;
 		}
 
-		public T GetNext (NumericSource source)
+		public T GetNext (IRandomSource source)
 		{
 			return _template.Copy();
 		}

@@ -21,6 +21,6 @@ namespace Kostassoid.Liar.Generators
 
 	public interface IGenerator<out T> : IGenerator
 	{
-		T GetNext(NumericSource source);
+		T GetNext(IRandomSource source);
 	}
 }

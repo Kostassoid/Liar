@@ -31,25 +31,25 @@ namespace Kostassoid.Liar
 			}
 		}
 
-		public NumericSource Source
+		public IRandomSource Source
 		{
 			get;
 			private set;
 		}
 
-		private Session(NumericSource source)
+		private Session(IRandomSource source)
 		{
 			Source = source;
 		}
 
-		public static void Start(NumericSource source)
+		public static void Start(IRandomSource source)
 		{
 			_current = new Session(source);
 		}
 
 		public static void Start()
 		{
-			Start(new RandomNumericSource (666));
+			Start(new DefaultRandomSource (666));
 		}
 
 		public void Reset()

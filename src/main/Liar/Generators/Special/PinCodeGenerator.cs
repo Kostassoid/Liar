@@ -21,9 +21,9 @@ namespace Kostassoid.Liar.Generators.Special
 
 	internal static class PinCodeGenerator
 	{
-		static int Generate(NumericSource source)
+		static int Generate(IRandomSource source)
 		{
-			return Math.Abs(source.GetNext()) % 9000 + 1000;
+			return Math.Abs(Builders.BuildShort(source)) % 9000 + 1000;
 		}
 
 		public static IValueSyntax<int> PinCode(this IAnySyntax<int> syntax)
