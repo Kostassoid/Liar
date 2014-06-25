@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
+# Visual Studio 2012
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liar", "main\Liar\Liar.csproj", "{B1A97B26-6B1A-4EDD-9A98-78EC4E828CF6}"
@@ -14,20 +14,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CFEDB5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liar.Specs", "specs\Liar.Specs\Liar.Specs.csproj", "{585B5255-59D1-44A5-8FA5-0A67DC4A034F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liar.Tools", "main\Liar.Tools\Liar.Tools.csproj", "{1DC5A964-3B5B-4451-BE73-1FE51CCE7D44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B1A97B26-6B1A-4EDD-9A98-78EC4E828CF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1A97B26-6B1A-4EDD-9A98-78EC4E828CF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1A97B26-6B1A-4EDD-9A98-78EC4E828CF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1A97B26-6B1A-4EDD-9A98-78EC4E828CF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DC5A964-3B5B-4451-BE73-1FE51CCE7D44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DC5A964-3B5B-4451-BE73-1FE51CCE7D44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DC5A964-3B5B-4451-BE73-1FE51CCE7D44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DC5A964-3B5B-4451-BE73-1FE51CCE7D44}.Release|Any CPU.Build.0 = Release|Any CPU
 		{585B5255-59D1-44A5-8FA5-0A67DC4A034F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{585B5255-59D1-44A5-8FA5-0A67DC4A034F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{585B5255-59D1-44A5-8FA5-0A67DC4A034F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{585B5255-59D1-44A5-8FA5-0A67DC4A034F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1A97B26-6B1A-4EDD-9A98-78EC4E828CF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1A97B26-6B1A-4EDD-9A98-78EC4E828CF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1A97B26-6B1A-4EDD-9A98-78EC4E828CF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1A97B26-6B1A-4EDD-9A98-78EC4E828CF6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = main\Liar.Tools\Liar.Tools.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
