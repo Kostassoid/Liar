@@ -11,37 +11,20 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
 
-using System.Collections.Generic;
+using System;
 
-namespace Kostassoid.Liar.Randomization
+namespace Liar.Generators.Text
 {
-	using System;
-
-	public class DefaultRandomSource : IRandomSource
+	[Serializable]
+	public class ChainLink
 	{
-		Random _random;
-		readonly int _seed;
+		public string Value { get; private set; }
 
-		public DefaultRandomSource (int seed)
-		{
-			_seed = seed;
-			_random = new Random(_seed);
-		}
+		public double Probability { get; set; }
 
-		public DefaultRandomSource() : this((int)DateTime.Now.Ticks)
+		public ChainLink (string value)
 		{
-		}
-
-		public void Reset ()
-		{
-			_random = new Random(_seed);
-		}
-
-		public byte[] Next(int count)
-		{
-			var buffer = new byte[count];
-			_random.NextBytes (buffer);
-			return buffer;
+			this.Value = value;
 		}
 	}
 }

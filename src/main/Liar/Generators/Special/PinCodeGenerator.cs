@@ -23,7 +23,7 @@ namespace Kostassoid.Liar.Generators.Special
 	{
 		static int Generate(IRandomSource source)
 		{
-			return Math.Abs(Builders.BuildShort(source)) % 9000 + 1000;
+			return Math.Abs(Builders.Build<short>(source)) % 9000 + 1000;
 		}
 
 		public static IValueSyntax<int> PinCode(this IAnySyntax<int> syntax)

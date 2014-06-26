@@ -66,34 +66,34 @@ namespace Kostassoid.Liar.Generators
 			return (T) builder (source);
 		}
 
-		public static bool BuildBoolean(IRandomSource source)
+		static bool BuildBoolean(IRandomSource source)
 		{
 			return source.Next (1)[0] % 2 == 0;
 		}
 
-		public static byte BuildByte(IRandomSource source)
+		static byte BuildByte(IRandomSource source)
 		{
 			return source.Next (1)[0];
 		}
 
-		public static short BuildShort(IRandomSource source)
+		static short BuildShort(IRandomSource source)
 		{
 			var b = source.Next (2);
 			return (short)(((short)b[0] << 8) | b[1]);
 		}
 
-		public static int BuildInt(IRandomSource source)
+		static int BuildInt(IRandomSource source)
 		{
 			var b = source.Next (4);
 			return ((int)b[0] << 24) | ((int)b[1] << 16) | ((int)b[2] << 8) | b[3];
 		}
 
-		public static long BuildLong(IRandomSource source)
+		static long BuildLong(IRandomSource source)
 		{
 			return ((long)BuildInt (source) << 32) | (uint)BuildInt (source);
 		}
 
-		public static decimal BuildDecimal(IRandomSource source)
+		static decimal BuildDecimal(IRandomSource source)
 		{
 			byte scale = (byte)(source.Next(1)[0] % 29);
 			bool sign = BuildBoolean(source);
@@ -105,7 +105,7 @@ namespace Kostassoid.Liar.Generators
 				scale);
 		}
 
-		public static float BuildFloat(IRandomSource source)
+		static float BuildFloat(IRandomSource source)
 		{
 			float value;
 			do
@@ -117,7 +117,7 @@ namespace Kostassoid.Liar.Generators
 			return value;
 		}
 
-		public static double BuildDouble(IRandomSource source)
+		static double BuildDouble(IRandomSource source)
 		{
 			double value;
 			do
@@ -129,7 +129,7 @@ namespace Kostassoid.Liar.Generators
 			return value;
 		}
 
-		public static Guid BuildGuid(IRandomSource source)
+		static Guid BuildGuid(IRandomSource source)
 		{
 			return new Guid(source.Next(16));
 		}

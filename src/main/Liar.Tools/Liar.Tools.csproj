@@ -34,9 +34,12 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ChainItem.cs" />
-    <Compile Include="ChainLink.cs" />
-    <Compile Include="ChainDictionary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Liar\Liar.csproj">
+      <Project>{B1A97B26-6B1A-4EDD-9A98-78EC4E828CF6}</Project>
+      <Name>Liar</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

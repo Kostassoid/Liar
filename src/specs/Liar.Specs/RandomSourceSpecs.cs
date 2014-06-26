@@ -25,6 +25,22 @@ namespace Kostassoid.Liar.Specs
 	{
 		[Subject(typeof(DefaultRandomSource))]
 		[Tags("Unit")]
+		public class when_creating_random_sources_without_seed
+		{
+			static long[] _sequence1;
+			static long[] _sequence2;
+
+			Because of = () =>
+			{
+				_sequence1 = new DefaultRandomSource().Next(100).Select(b => (long)b).ToArray();
+				_sequence2 = new DefaultRandomSource().Next(100).Select(b => (long)b).ToArray();
+			};
+
+			It should_produce_different_sequences = () => _sequence1.ShouldNotEqual(_sequence2);
+		}
+
+		[Subject(typeof(DefaultRandomSource))]
+		[Tags("Unit")]
 		public class when_iterating_over_random_source
 		{
 			static long[] _sequence;

@@ -69,6 +69,9 @@
     <Compile Include="Generators\Builders.cs" />
     <Compile Include="Randomization\DefaultRandomSource.cs" />
     <Compile Include="Randomization\IRandomSource.cs" />
+    <Compile Include="Generators\Text\ChainDictionary.cs" />
+    <Compile Include="Generators\Text\ChainItem.cs" />
+    <Compile Include="Generators\Text\ChainLink.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -81,5 +84,6 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="Generators\Special\" />
+    <Folder Include="Generators\Text\" />
   </ItemGroup>
 </Project>
