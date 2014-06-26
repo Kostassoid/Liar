@@ -22,6 +22,8 @@ namespace Liar.Tools
 
 		public string PickNext(Random random)
 		{
+			Console.WriteLine ("Picking next for {0} from {1}.", Value, Links.Count);
+
 			var l = random.NextDouble ();
 			return Links
 				.OrderBy (_ => random.Next())

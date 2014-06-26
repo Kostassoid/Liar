@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using System.IO.Compression;
 
 namespace Liar.Tools
 {
@@ -40,13 +41,15 @@ namespace Liar.Tools
 
 					var next = dictionary.GetOrAdd (word);
 
-					if (atStart) {
-						next.CanStart = true;
-						continue;
-					}
-
-					if (current != null) {
+					if (!atStart) {
 						current.Register (next.Value);
+					}
+					else
+					{
+						if (char.IsUpper(next.Value[0]))
+							next.CanStart = true;
+
+						atStart = false;
 					}
 
 					current = next;
@@ -60,50 +63,78 @@ namespace Liar.Tools
 		{
 			dictionary.Normalize ();
 
-			/*
 			IFormatter formatter = new BinaryFormatter();
 			using (Stream stream = new FileStream (dictionaryFile, FileMode.Create, FileAccess.Write, FileShare.None))
 			{
-				formatter.Serialize (stream, dictionary);
+				using (GZipStream compressionStream = new GZipStream (stream, CompressionMode.Compress))
+				{
+					formatter.Serialize (compressionStream, dictionary);
+				}
+				stream.Close ();
+			}
+
+			/*
+			using (var writer = new System.IO.StreamWriter(dictionaryFile))
+			{
+				var serializer = new XmlSerializer(dictionary.GetType());
+				serializer.Serialize(writer, dictionary);
+
+				writer.Flush();
+			}
+			*/
+
+			/*
+			using (Stream stream = new FileStream (dictionaryFile, FileMode.Create, FileAccess.Write, FileShare.None))
+			{
+				var serializer = new DataContractSerializer(typeof(ChainDictionary));
+				serializer.WriteObject (stream, dictionary);
+
 				stream.Close ();
 			}
 			*/
 
-			using (var writer = new System.IO.StreamWriter(dictionaryFile))
-			{
-				var serializer = new XmlSerializer(dictionary.GetType());
-				//var serializer = new DataContractSerializer(typeof(ChainDictionary));
-
-				serializer.Serialize(writer, dictionary);
-				writer.Flush();
-			}
 		}
 
 		static ChainDictionary LoadDictionary(string dictionaryFile)
 		{
-			/*
 			ChainDictionary dictionary;
 			IFormatter formatter = new BinaryFormatter();
 			using (Stream stream = new FileStream (dictionaryFile, FileMode.Open, FileAccess.Read, FileShare.None))
 			{
-				dictionary = (ChainDictionary)formatter.Deserialize(stream);
+				using (GZipStream compressionStream = new GZipStream (stream, CompressionMode.Decompress))
+				{
+					dictionary = (ChainDictionary)formatter.Deserialize (compressionStream);
+				}
 				stream.Close ();
 			}
 			return dictionary;
-			*/
 
+			/*
 			using (var stream = System.IO.File.OpenRead(dictionaryFile))
 			{
 				var serializer = new XmlSerializer(typeof(ChainDictionary));
 				return serializer.Deserialize(stream) as ChainDictionary;
 			}
+			*/
+
+			/*
+			ChainDictionary dictionary;
+			using (Stream stream = new FileStream (dictionaryFile, FileMode.Open, FileAccess.Read, FileShare.None))
+			{
+				var serializer = new DataContractSerializer(typeof(ChainDictionary));
+
+				dictionary = (ChainDictionary)serializer.ReadObject(stream);
+				stream.Close ();
+			}
+			return dictionary;
+			*/
 		}
 
 		static void Generate (string dictionaryFile, int length)
 		{
 			var dictionary = LoadDictionary (dictionaryFile);
 
-			dictionary.Generate (length);
+			Console.WriteLine(dictionary.Generate (length));
 		}
 
 		public static void Main (string[] args)
