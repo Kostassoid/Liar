@@ -12,19 +12,22 @@
 // specific language governing permissions and limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Kostassoid.Liar.Generators.Text
 {
-	[Serializable]
-	public class ChainLink
+	public class WordSplitter : ISplitter
 	{
-		public string Value { get; private set; }
+		Regex regex = new Regex(@"\w+[^\s]*\w+|\w|\.", RegexOptions.Compiled);
 
-		public double Probability { get; set; }
+		public string Separator { get { return " "; } }
+		public string EndOfSequence { get { return "."; } }
 
-		public ChainLink (string value)
+		public IEnumerable<string> Split(string input)
 		{
-			this.Value = value;
+			return regex.Matches (input).Cast<Match>().Select(m => m.Value);
 		}
 	}
 }

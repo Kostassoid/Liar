@@ -15,21 +15,22 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.IO.Compression;
 using Kostassoid.Liar.Randomization;
 using Kostassoid.Liar.Generators;
+using System.IO;
 
-namespace Liar.Generators.Text
+namespace Kostassoid.Liar.Generators.Text
 {
 	[Serializable]
 	public class ChainDictionary
 	{
 		IDictionary<string, ChainItem> _items;
 		string _separator;
+		string _endOfSequence;
 
 		public ChainDictionary ()
 		{
@@ -58,36 +59,25 @@ namespace Liar.Generators.Text
 				_items.Values.Where(i => i.CanFinish).Count()
 			);
 
+			/*
 			foreach (var i in _items.Values.Where(i => i.CanStart).Take(10)) {
 				Console.WriteLine ("CanStart: {0}", i.Value);
 			}
+			*/
 		}
 
-		public void LearnFromFile(string filepath, string separator = ".")
-		{
-			Learn (File.ReadLines (filepath), separator);
-		}
-
-		public void LearnFromText(IEnumerable<string> text, string separator)
-		{
-			Learn (text);
-		}
-
-		void Learn(IEnumerable<string> lines, string separator = ".")
+		public void LearnFrom(IEnumerable<string> lines, ISplitter splitter)
 		{
 			_items.Clear ();
-			_separator = separator;
+			_separator = splitter.Separator;
+			_endOfSequence = splitter.EndOfSequence;
 
 			foreach (var l in lines)
 			{
-				var matches = Regex.Matches(l, @"\w+[^\s]*\w+|\w|\.");
-
 				bool atStart = true;
 				ChainItem current = null;
-				foreach (Match match in matches) {
-					var word = match.Value;
-
-					if (word == ".") {
+				foreach (string item in splitter.Split(l)) {
+					if (item == splitter.EndOfSequence) {
 						if (current != null) {
 							current.CanFinish = true;
 						}
@@ -95,7 +85,7 @@ namespace Liar.Generators.Text
 						continue;
 					}
 
-					var next = GetOrAdd (word);
+					var next = GetOrAdd (item);
 
 					if (!atStart) {
 						current.Register (next.Value);
@@ -115,33 +105,16 @@ namespace Liar.Generators.Text
 			Normalize ();
 		}
 
-
-		public void SaveToFile(string dictionaryFile)
+		public void SaveTo(Stream stream)
 		{
 			IFormatter formatter = new BinaryFormatter();
-			using (Stream stream = new FileStream (dictionaryFile, FileMode.Create, FileAccess.Write, FileShare.None))
-			{
-				using (GZipStream compressionStream = new GZipStream (stream, CompressionMode.Compress))
-				{
-					formatter.Serialize (compressionStream, this);
-				}
-				stream.Close ();
-			}
+			formatter.Serialize (stream, this);
 		}
 
-		public static ChainDictionary LoadFromFile(string dictionaryFile)
+		public static ChainDictionary LoadFrom(Stream stream)
 		{
-			ChainDictionary dictionary;
 			IFormatter formatter = new BinaryFormatter();
-			using (Stream stream = new FileStream (dictionaryFile, FileMode.Open, FileAccess.Read, FileShare.None))
-			{
-				using (GZipStream compressionStream = new GZipStream (stream, CompressionMode.Decompress))
-				{
-					dictionary = (ChainDictionary)formatter.Deserialize (compressionStream);
-				}
-				stream.Close ();
-			}
-			return dictionary;
+			return (ChainDictionary)formatter.Deserialize (stream);
 		}
 
 		public string Generate(int maxLength, IRandomSource random)
@@ -162,7 +135,7 @@ namespace Liar.Generators.Text
 
 				if (current.CanFinish && Builders.Build<byte>(random) % 10 < 3)
 				{
-					result.Append (". ");
+					result.Append (_endOfSequence + _separator);
 					current = null;
 					continue;
 				}
@@ -170,13 +143,13 @@ namespace Liar.Generators.Text
 				var next = current.PickNext(random);
 				if (next == null)
 				{
-					result.Append (". ");
+					result.Append (_endOfSequence + _separator);
 					current = null;
 					continue;
 				}
 
 				current = _items [next];
-				result.Append (" " + current.Value);
+				result.Append (_separator + current.Value);
 				count++;
 			}
 

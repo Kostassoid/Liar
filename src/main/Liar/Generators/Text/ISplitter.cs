@@ -12,20 +12,16 @@
 // specific language governing permissions and limitations under the License.
 
 using System;
+using System.Collections.Generic;
 
 namespace Kostassoid.Liar.Generators.Text
 {
-	[Serializable]
-	public class ChainLink
+	public interface ISplitter
 	{
-		public string Value { get; private set; }
+		string Separator { get; }
+		string EndOfSequence { get; }
 
-		public double Probability { get; set; }
-
-		public ChainLink (string value)
-		{
-			this.Value = value;
-		}
+		IEnumerable<string> Split(string input);
 	}
 }
 

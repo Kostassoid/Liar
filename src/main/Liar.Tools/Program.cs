@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using System.IO.Compression;
 using Kostassoid.Liar.Randomization;
-using Liar.Generators.Text;
+using Kostassoid.Liar.Generators.Text;
 
 namespace Liar.Tools
 {
@@ -24,13 +24,13 @@ namespace Liar.Tools
 		{
 			var dictionary = new ChainDictionary ();
 
-			dictionary.LearnFromFile (sourceFile);
+			dictionary.LearnFromFile (sourceFile, new WordSplitter());
 			dictionary.SaveToFile (dictionaryFile);
 		}
 
 		static void Generate (string dictionaryFile, int length)
 		{
-			var dictionary = ChainDictionary.LoadFromFile (dictionaryFile);
+			var dictionary = ChainDictionaryHelper.LoadFromFile (dictionaryFile);
 
 			Console.WriteLine(dictionary.Generate (length, new DefaultRandomSource()));
 		}

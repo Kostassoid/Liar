@@ -17,7 +17,7 @@ using System.Linq;
 using Kostassoid.Liar.Randomization;
 using Kostassoid.Liar.Generators;
 
-namespace Liar.Generators.Text
+namespace Kostassoid.Liar.Generators.Text
 {
 	[Serializable]
 	public class ChainItem
@@ -37,8 +37,6 @@ namespace Liar.Generators.Text
 
 		public string PickNext(IRandomSource random)
 		{
-			Console.WriteLine ("Picking next for {0} from {1}.", Value, Links.Count);
-
 			var l = Builders.Build<uint>(random) / (double)uint.MaxValue;
 			return Links
 				.OrderBy (_ => Builders.Build<int>(random))
