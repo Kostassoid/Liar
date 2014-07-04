@@ -16,16 +16,30 @@ namespace Liar.Tools
 		public static void ShowUsage()
 		{
 			Console.WriteLine ("Liar Tools\n");
-			Console.WriteLine ("Create dictionary: -c <dictionary.file> <source.file>");
+			Console.WriteLine ("Create dictionary: -c <dictionary.file> <source.file> <-s|-w>");
 			Console.WriteLine ("Generate: -g <dictionary.file> <length>");
 		}
 
-		static void Create (string dictionaryFile, string sourceFile)
+		static void Create (string dictionaryFile, string sourceFile, string splitterCode)
 		{
 			var dictionary = new ChainDictionary ();
 
-			dictionary.LearnFromFile (sourceFile, new WordSplitter());
+			var splitter = ResolveSplitter(splitterCode);
+
+			dictionary.LearnFromFile (sourceFile, splitter);
 			dictionary.SaveToFile (dictionaryFile);
+		}
+
+		static ISplitter ResolveSplitter(string arg)
+		{
+			switch (arg) {
+			case "-s":
+				return new WordSplitter ();
+			case "-w":
+				return new LetterSplitter ();
+			default:
+				throw new ArgumentException("Unknown splitter strategy: " + arg);
+			}
 		}
 
 		static void Generate (string dictionaryFile, int length)
@@ -37,7 +51,7 @@ namespace Liar.Tools
 
 		public static void Main (string[] args)
 		{
-			if (args.Length != 3) {
+			if (args.Length < 3) {
 				ShowUsage ();
 				return;
 			}
@@ -47,7 +61,7 @@ namespace Liar.Tools
 
 			switch (command) {
 			case "-c":
-				Create (dictionaryFile, args [2]);
+				Create (dictionaryFile, args [2], args[3]);
 				break;
 			case "-g":
 				Generate (dictionaryFile, int.Parse (args [2]));

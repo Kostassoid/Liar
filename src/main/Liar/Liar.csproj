@@ -75,6 +75,7 @@
     <Compile Include="Generators\Text\ChainDictionaryHelper.cs" />
     <Compile Include="Generators\Text\ISplitter.cs" />
     <Compile Include="Generators\Text\WordSplitter.cs" />
+    <Compile Include="Generators\Text\LetterSplitter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
